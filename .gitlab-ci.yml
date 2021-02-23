@@ -23,7 +23,7 @@ test:
   only:
   - branches
   except:
-  - master
+  - default
 
 pages:
   stage: deploy
@@ -50,6 +50,6 @@ run:
     - python -m build # build the package
     - TWINE_PASSWORD=${CI_PYPI_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload dist/*
   only:
-  - master
+  - default
   allow_failure: false
   when: manual
