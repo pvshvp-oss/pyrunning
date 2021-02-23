@@ -41,7 +41,7 @@ pages:
     paths:
     - public
   only:
-  - master
+  - default
 
 run:
   script:
