@@ -8,25 +8,8 @@
 
 image: python:3.9-alpine
 
-test:
-  stage: test
-  script:
-  - apk add git # for git based dependencies
-  - apk add build-base # for using `make`
-  - apk add linux-headers # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
-  - apk add graphviz fontconfig # for diagrams
-  - pip install pipenv # install pipenv for reading the pipfile and installing the dev dependencies
-  - pipenv install --system --dev # install the dev dependencies so that we have (1) Sphinx and a theme for it, and also (2) for keeping dependencies importable and hence documentable
-  - rm -rf public/* # clear out old files
-  - cd documentation && make html; cd .. # run Sphinx to generate documentation as html. Information on build is in the makefile and in `conf.py`
-  - cp -r documentation/build/html/. public/ # copy the html pages to the public directory
-  only:
-  - branches
-  except:
-  - default
-
 pages:
-  stage: deploy
+  stage: build
   script:
   - apk add git # for git based dependencies
   - apk add build-base # for using `make`
@@ -42,8 +25,28 @@ pages:
     - public
   only:
   - default
+  allow_failure: false
+
+development_pages:
+  stage: test
+  script:
+  - apk add git # for git based dependencies
+  - apk add build-base # for using `make`
+  - apk add linux-headers # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
+  - apk add graphviz fontconfig # for diagrams
+  - pip install pipenv # install pipenv for reading the pipfile and installing the dev dependencies
+  - pipenv install --system --dev # install the dev dependencies so that we have (1) Sphinx and a theme for it, and also (2) for keeping dependencies importable and hence documentable
+  - rm -rf public/* # clear out old files
+  - cd documentation && make html; cd .. # run Sphinx to generate documentation as html. Information on build is in the makefile and in `conf.py`
+  - cp -r documentation/build/html/. public/ # copy the html pages to the public directory
+  only:
+  - branches
+  except:
+  - default
+  allow_failure: true
 
 run:
+  stage: deploy
   script:
     - pip install twine
     - rm -rf build dist *.egg-info # cleanup old files
@@ -51,5 +54,5 @@ run:
     - TWINE_PASSWORD=${CI_PYPI_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload dist/*
   only:
   - default
-  allow_failure: false
   when: manual
+  allow_failure: false
