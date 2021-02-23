@@ -1,5 +1,5 @@
 
-# Analyzing - Fenix Library - RebornOS Team
+# Running - Fenix Library - RebornOS Team
 
 *Documentation by @shivanandvp (shivanandvp@rebornos.org)*  
 
@@ -7,8 +7,8 @@
 
 ## Overview
 
-The **analyzing** package consists the tools required to analyze a Linux system to obtain system specifications (like network connections, power status, GPU setup, etc).
+The **running** package contains the tools required to run and live-log *OS commands*, *functions*, *scripts*, and *batch jobs* either immedietly, or queued for later execution).
 
-**Warning**: This package is still in the Pre-Alpha stage. It is not ready for external testing. Please do not use for any critical software
+**Warning**: This package is still in the Alpha stage. It is not ready for production use. Please do not use for any critical software
 
-## [PLEASE CLICK HERE](https://rebornos-team.gitlab.io/fenix/libraries/analyzing/index.html) for the full documentation
+## [PLEASE CLICK HERE](https://rebornos-team.gitlab.io/fenix/libraries/running/index.html) for the full documentation

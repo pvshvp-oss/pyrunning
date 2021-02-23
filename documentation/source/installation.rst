@@ -14,32 +14,23 @@ On a terminal, run
 
 .. code-block:: bash
 
-    sudo pip install fenix_library-analyzing
+    sudo pip install fenix_library-running
 
 Installing from Git
 ===================
 
-The "master" branch (recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The "default" branch (recommended)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    sudo pip install git+https://gitlab.com/rebornos-team/fenix/libraries/analyzing@master
+    sudo pip install git+https://gitlab.com/rebornos-team/fenix/libraries/running@default
 
-The "test" branch
-~~~~~~~~~~~~~~~~~~
+The "development" branch
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Caution** It is not recommended to use this branch
 
 .. code-block:: bash
 
-    sudo pip install git+https://gitlab.com/rebornos-team/fenix/libraries/analyzing@test
-
-The "dev" branch
-~~~~~~~~~~~~~~~~~~
-
-**Caution** It is not recommended to use this branch
-
-.. code-block:: bash
-
-    sudo pip install git+https://gitlab.com/rebornos-team/fenix/libraries/analyzing@dev
+    sudo pip install git+https://gitlab.com/rebornos-team/fenix/libraries/running@development

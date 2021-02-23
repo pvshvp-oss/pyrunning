@@ -37,7 +37,7 @@ import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'Fenix Library - Analyzing'
+project = 'Fenix Library - Running'
 copyright = '2021, RebornOS'
 author = 'Shivanand Pattanshetti'
 

@@ -1,10 +1,10 @@
 .. _index:
 
-.. Fenix Library - Analyzing documentation master file.
+.. Fenix Library - Running documentation master file.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Fenix Library - Analyzing package's documentation!
+Welcome to Fenix Library - Running package's documentation!
 *************************************************************
 
 *Documentation by:*
@@ -35,12 +35,12 @@ This package is a part of the `Fenix Library <https://gitlab.com/rebornos-team/f
 
    Fenix Library <api_documentation>
  
-Fenix Library - Analyzing: the What, Why, and How
+Fenix Library - Running: the What, Why, and How
 ==================================================
 
-The **analyzing** package consists the tools required to analyze a Linux system to obtain system specifications (like network connections, power status, GPU setup, etc).
+The **running** package contains the tools required to run and live-log *OS commands*, *functions*, *scripts*, and *batch jobs* either immedietly, or queued for later execution).
 
-**Warning**: This package is still in the Pre-Alpha stage. It is not ready for external testing. Please do not use for any critical software
+**Warning**: This package is still in the Alpha stage. It is not ready for production use. Please do not use for any critical software
 
 .. Indices and tables
 .. ==================
