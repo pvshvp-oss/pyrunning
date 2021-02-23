@@ -57,23 +57,19 @@
         },
         "fenix-library-analyzing": {
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/analyzing.git",
-            "ref": "3f90eead0ae51fcb67e1526c2441f52392fafbb2"
+            "ref": "66a8cb20de453990b7d383398bb7712f0805c45f"
         },
         "fenix-library-configuration": {
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git",
-            "hashes": [
-                "sha256:f56d0d0c31561875698b8bec6276fd0a6842c86ac303d94a516ef0dc24cc2a59",
-                "sha256:ffe623e9950c7ca7414022f1ec3badc4a73d7a665b0c85d8a502db3bf788db37"
-            ],
-            "ref": "700d5b69b460860f27d6e69bf96b83d19d953a14"
+            "ref": "6d6588375e1d72e5fb82c32ee94513a6a2c22005"
         },
         "fenix-library-installing": {
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/installing.git",
-            "ref": "db1a9a96ac2e21412da523688f5ad26f054d985a"
+            "ref": "18b53ad8d4568b079428141555b90a64814e5684"
         },
         "fenix-library-running": {
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/running.git",
-            "ref": "38dd723b61a2d11afdf45569ee81968015b5d47e"
+            "ref": "6cb042c52d485347478e7c338d1b963470fa1c77"
         },
         "idna": {
             "hashes": [
