@@ -9,19 +9,31 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
-   sodipodi:docname="analyzing.svg"
-   viewBox="0 0 95.978607 102.8958"
+   sodipodi:docname="running.svg"
+   viewBox="0 0 95.978607 102.89581"
    sodipodi:version="0.32"
    version="1.1"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    width="95.978607"
    height="102.89581"
-   inkscape:export-filename="/run/media/shivanandvp/DATA/Development/RebornOS/fenix-libraries/fenix_library-analyzing/media/icons/analyzing.png"
+   inkscape:export-filename="/run/media/shivanandvp/DATA/Development/RebornOS/fenix-libraries/fenix_library-running/media/branding/running.png"
    inkscape:export-xdpi="150"
    inkscape:export-ydpi="150">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient882"
+       inkscape:collect="always">
+      <stop
+         id="stop878"
+         style="stop-color:#00cc00;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop880"
+         style="stop-color:#00a400;stop-opacity:1"
+         offset="1" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3690"
        inkscape:collect="always">
@@ -39,17 +51,17 @@
        inkscape:collect="always">
       <stop
          id="stop3587"
-         style="stop-color:#cc0000"
+         style="stop-color:#00cc00;stop-opacity:1"
          offset="0" />
       <stop
          id="stop3589"
-         style="stop-color:#a40000"
+         style="stop-color:#00a400;stop-opacity:1"
          offset="1" />
     </linearGradient>
     <linearGradient
        id="linearGradient3665"
        y2="167.86"
-       xlink:href="#linearGradient3585"
+       xlink:href="#linearGradient882"
        gradientUnits="userSpaceOnUse"
        x2="-98.75"
        gradientTransform="translate(-22.451,-11.49)"
@@ -171,13 +183,13 @@
      pagecolor="#ffffff"
      inkscape:window-height="996"
      inkscape:window-maximized="1"
-     inkscape:zoom="2.8284271"
+     inkscape:zoom="2"
      inkscape:window-x="0"
      showgrid="false"
      borderopacity="1.0"
-     inkscape:current-layer="layer1"
-     inkscape:cx="76.307332"
-     inkscape:cy="79.006765"
+     inkscape:current-layer="g3842"
+     inkscape:cx="-77.680428"
+     inkscape:cy="96.327195"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1920"
@@ -192,10 +204,10 @@
      id="layer1"
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
-     transform="translate(-12.308955,-25.88635)">
+     transform="translate(-67.016746,-27.42978)">
     <g
        id="g3842"
-       transform="matrix(1.1651,0,0,1.1651,203.03,-53.923)">
+       transform="matrix(1.1651,0,0,1.1651,257.73779,-52.37957)">
       <path
          id="path3824"
          sodipodi:nodetypes="ccccc"
@@ -204,24 +216,24 @@
       <path
          id="path3740"
          sodipodi:nodetypes="cccccc"
-         style="fill:#ef2929"
+         style="fill:#29ef29;fill-opacity:1"
          d="m -150.75,68.5 c -1.8264,0.0027 -8.6679,0.53125 -12.605,8.625 l 0.125,7.75 h 13.043 l 0.28569,-16.021 c 0,0 -0.58728,-0.35393 -0.84819,-0.35355 z" />
       <path
          id="rect3728"
          sodipodi:nodetypes="ccccc"
-         style="fill:#7a0000"
+         style="fill:#007a00;fill-opacity:1"
          d="m -161.4,78.266 -1.1,6.109 h 12.312 l -0.125,-14.344 c -6.7857,0.55737 -9.834,5.3863 -11.09,8.2348 z" />
       <g
          id="g3659"
          transform="translate(1.25,-18.25)">
         <path
            id="path3655"
-           style="fill:#ef2929"
+           style="fill:#29ef29;fill-opacity:1"
            d="m -109.22,101.97 v -0.125 l -42,-15 -1.5625,1.3125 42.094,14.969 v 0.40625" />
         <path
            id="path3645"
            sodipodi:nodetypes="cccc"
-           style="fill:#6a0000"
+           style="fill:#006a00;fill-opacity:1"
            d="m -110.81,103.22 0.0442,61.447 1.4246,-1.6343 0.17678,-61.154" />
         <path
            id="rect3517"
@@ -253,12 +265,12 @@
          transform="translate(-10.5,-8.75)">
         <path
            id="path3669"
-           style="fill:#ef2929"
+           style="fill:#29ef29;fill-opacity:1"
            d="m -109.22,101.97 v -0.125 l -42,-15 -1.5625,1.3125 42.094,14.969 v 0.40625" />
         <path
            id="path3671"
            sodipodi:nodetypes="cccc"
-           style="fill:#7a0000"
+           style="fill:#007a00;fill-opacity:1"
            d="m -110.81,103.22 0.0442,61.447 1.4246,-1.6343 0.17678,-61.154" />
         <path
            id="path3673"
@@ -324,12 +336,12 @@
       <path
          id="rect3834"
          sodipodi:nodetypes="ccccc"
-         style="fill:#a40000"
+         style="fill:#00a400;fill-opacity:1"
          d="m -163.5,79.375 v 62.188 l 10.5,3.2803 v -61.688 z" />
       <path
          id="path3840"
          sodipodi:nodetypes="cccc"
-         style="fill:#842b29;fill-rule:evenodd"
+         style="fill:#298429;fill-rule:evenodd;fill-opacity:1"
          d="m -153.12,82.862 -0.375,1.125 0.375,44.625 z" />
     </g>
   </g>
@@ -348,7 +360,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title>pair of red books</dc:title>
+        <dc:title />
         <dc:date>2010-03-08T20:45:47</dc:date>
         <dc:description />
         <dc:source>https://openclipart.org/detail/30355/pair-of-red-books-by-rg1024</dc:source>
