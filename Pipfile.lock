@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2086ccd27bf514ebaae4b019741a432d5330c1e1feb00a533109c3c0c89fde69"
+            "sha256": "64e3a7e5279f704494cee2b614d390c46d85597ff968419ab73cff787b0b2a29"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -56,24 +56,36 @@
             "version": "==0.16"
         },
         "fenix-library-analyzing": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/analyzing.git",
-            "ref": "3f90eead0ae51fcb67e1526c2441f52392fafbb2"
+            "hashes": [
+                "sha256:35bc25b04f8c838ae13f10dfcaf2badd3d9e221d3f3231c70a7d631570d43435",
+                "sha256:96ae3e70d133f2c0c689cbab7dbb3a8da293e2d1f9e0b134186ff1116753fe78"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "fenix-library-configuration": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git",
             "hashes": [
                 "sha256:f56d0d0c31561875698b8bec6276fd0a6842c86ac303d94a516ef0dc24cc2a59",
                 "sha256:ffe623e9950c7ca7414022f1ec3badc4a73d7a665b0c85d8a502db3bf788db37"
             ],
-            "ref": "700d5b69b460860f27d6e69bf96b83d19d953a14"
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "fenix-library-installing": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/installing.git",
-            "ref": "db1a9a96ac2e21412da523688f5ad26f054d985a"
+            "hashes": [
+                "sha256:26d26fd7ab16cbe4148fdf3518349d067e2e84b4701185f7db2f8762ab07b89a",
+                "sha256:c6b941dd28d38b35e59bc044ae6d9959c8b52f2ef488a8a969812a1eb34de71a"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "fenix-library-running": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/running.git",
-            "ref": "38dd723b61a2d11afdf45569ee81968015b5d47e"
+            "hashes": [
+                "sha256:4f92200dfd0583dcec5a847373218db3e61d3b89a64f0f89b27a8e9060115e7a",
+                "sha256:cb4013e6ac7b1a6040f0543485e057938615d654cf641c5c95b9c89204f8afed"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
         },
         "idna": {
             "hashes": [
