@@ -6,15 +6,16 @@
 # 1. Shivanand Pattanshetti (shivanand.pattanshetti@gmail.com)
 # 2. 
 
-image: python:3.9-alpine
+image: python:latest
 
 pages:
   stage: build
   script:
-  - apk add git # for git based dependencies
-  - apk add build-base # for using `make`
-  - apk add linux-headers # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
-  - apk add graphviz fontconfig # for diagrams
+  - apt-get --yes update
+  - apt-get --yes install git # for git based dependencies
+  - apt-get --yes install build-essential # for using `make`
+  - apt-get --yes install gcc python3-dev # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
+  - apt-get --yes install graphviz fontconfig # for diagrams
   - pip install pipenv # install pipenv for reading the pipfile and installing the dev dependencies
   - pipenv install --system --dev # install the dev dependencies so that we have (1) Sphinx and a theme for it, and also (2) for keeping dependencies importable and hence documentable
   - rm -rf public/* # clear out old files
@@ -28,12 +29,13 @@ pages:
   allow_failure: false
 
 development_pages:
-  stage: test
+  stage: build
   script:
-  - apk add git # for git based dependencies
-  - apk add build-base # for using `make`
-  - apk add linux-headers # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
-  - apk add graphviz fontconfig # for diagrams
+  - apt-get --yes update
+  - apt-get --yes install git # for git based dependencies
+  - apt-get --yes install build-essential # for using `make`
+  - apt-get --yes install gcc python3-dev # for `psutil`, which is a dependency of `fenix_library-analyzing`. pip install does not automatically handle all the dependencies of psutil
+  - apt-get --yes install graphviz fontconfig # for diagrams
   - pip install pipenv # install pipenv for reading the pipfile and installing the dev dependencies
   - pipenv install --system --dev # install the dev dependencies so that we have (1) Sphinx and a theme for it, and also (2) for keeping dependencies importable and hence documentable
   - rm -rf public/* # clear out old files
@@ -49,9 +51,10 @@ run:
   stage: deploy
   script:
     - pip install twine
+    - pip install --upgrade build
     - rm -rf build dist *.egg-info # cleanup old files
     - python -m build # build the package
-    - TWINE_PASSWORD=${CI_PYPI_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload dist/*
+    - TWINE_PASSWORD=${CI_PYPI_TOKEN} TWINE_USERNAME=__token__ python -m twine upload dist/*
   only:
   - default
   when: manual
