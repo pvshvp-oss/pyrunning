@@ -15,8 +15,8 @@ This package is a part of the `Fenix Library <https://gitlab.com/rebornos-team/f
 
 * `Running <https://gitlab.com/rebornos-team/fenix/libraries/running>`_
 * `Configuration <https://gitlab.com/rebornos-team/fenix/libraries/configuration>`_
-* `Analyzing <https://gitlab.com/rebornos-team/fenix/libraries/analyzing>`_
-* `Installing <https://gitlab.com/rebornos-team/fenix/libraries/installing>`_
+.. * `Analyzing <https://gitlab.com/rebornos-team/fenix/libraries/analyzing>`_
+.. * `Installing <https://gitlab.com/rebornos-team/fenix/libraries/installing>`_
 
 ------------
 
