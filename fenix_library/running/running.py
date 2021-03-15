@@ -113,10 +113,25 @@ class LoggingHandler:
         None
         """
 
-        self.process_error_thread_pool_executor.shutdown()
-        self.process_output_thread_pool_executor.shutdown()
-        self.process_coordination_thread_pool_executor.shutdown()
-        self.log_thread_pool_executor.shutdown()
+        try:
+            self.process_error_thread_pool_executor.shutdown()
+        except:
+            pass
+
+        try:
+            self.process_output_thread_pool_executor.shutdown()
+        except:
+            pass
+
+        try:
+            self.process_coordination_thread_pool_executor.shutdown()
+        except:
+            pass
+
+        try:
+            self.log_thread_pool_executor.shutdown()
+        except:
+            pass
 
     # PRIVATE METHODS
 
