@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "140f97b16f593a511e45030a9ecd592f33d08fa5d0dac018c95b2f0ddafae90e"
+            "sha256": "42e2e53c13fb36ef6801a5b193d09d1f897f824a7c1224d8e8f2d2916565bdfe"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -56,12 +56,20 @@
             "version": "==0.16"
         },
         "fenix-library-configuration": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git",
-            "ref": "045783f4d7fcc90e601f841d55abd1414b208104"
+            "hashes": [
+                "sha256:5b0cabe0212796082ecbe1d1dd3d552ec1e1fdacf5f4815e7f635c9a435c4e6e",
+                "sha256:d2e5c491c146b902734f17d12a7d89a61e89c4429626df7d75f10306d4077eab"
+            ],
+            "index": "pypi",
+            "version": "==0.0.3"
         },
         "fenix-library-running": {
-            "git": "https://gitlab.com/rebornos-team/fenix/libraries/running.git",
-            "ref": "270800f0546d9b3e0cee4fd20a4af9186e9833a7"
+            "hashes": [
+                "sha256:8ed30d484f18b88db4341d3ba611667a7f9975b7f96b9bdb17906b77bd71adc7",
+                "sha256:ab001fce8cc0b68a76454420eb594073ecb19778b301e728cd4e7969ad426d98"
+            ],
+            "index": "pypi",
+            "version": "==0.0.4"
         },
         "idna": {
             "hashes": [
