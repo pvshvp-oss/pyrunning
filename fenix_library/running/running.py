@@ -186,7 +186,7 @@ class LoggingHandler:
             logging_level,
             message,
             *args,
-            stacklevel = 2,
+            stacklevel = 4,
             **kwargs
         )  
 
