@@ -8,8 +8,8 @@ name = "pypi"
 # This file is for dev dependencies for documentation generation
 
 [dev-packages]
-fenix-library-running = "*"
-fenix-library-configuration = "*"
+fenix-library-running = {git = "https://www.gitlab.com/rebornos-team/fenix/libraries/running.git"}
+fenix-library-configuration = {git = "https://www.gitlab.com/rebornos-team/fenix/libraries/configuration.git"}
 sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-mermaid = "*"

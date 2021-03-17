@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "42e2e53c13fb36ef6801a5b193d09d1f897f824a7c1224d8e8f2d2916565bdfe"
+            "sha256": "52adc4b1a591ae8262485dff5ed6eace5ed65333b24127dcd59fcc3615509fe1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -56,20 +56,12 @@
             "version": "==0.16"
         },
         "fenix-library-configuration": {
-            "hashes": [
-                "sha256:5b0cabe0212796082ecbe1d1dd3d552ec1e1fdacf5f4815e7f635c9a435c4e6e",
-                "sha256:d2e5c491c146b902734f17d12a7d89a61e89c4429626df7d75f10306d4077eab"
-            ],
-            "index": "pypi",
-            "version": "==0.0.3"
+            "git": "https://www.gitlab.com/rebornos-team/fenix/libraries/configuration.git",
+            "ref": "6f17c536efb03de2bf3b93e896f47e80a5fc2645"
         },
         "fenix-library-running": {
-            "hashes": [
-                "sha256:8ed30d484f18b88db4341d3ba611667a7f9975b7f96b9bdb17906b77bd71adc7",
-                "sha256:ab001fce8cc0b68a76454420eb594073ecb19778b301e728cd4e7969ad426d98"
-            ],
-            "index": "pypi",
-            "version": "==0.0.4"
+            "git": "https://www.gitlab.com/rebornos-team/fenix/libraries/running.git",
+            "ref": "a1b86d56f1f76e64ea288316c87b9c05f0ec37c5"
         },
         "idna": {
             "hashes": [
@@ -174,7 +166,7 @@
                 "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
                 "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"
             ],
-            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==2.4.7"
         },
         "pytz": {
@@ -273,11 +265,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:1b465e494e3e0d8939b50680403e3aedaa2bc434b7d5af64dfd3c958d7f5ae80",
-                "sha256:de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"
+                "sha256:2f4da4594db7e1e110a944bb1b551fdf4e6c136ad42e4234131391e21eb5b0df",
+                "sha256:e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
-            "version": "==1.26.3"
+            "version": "==1.26.4"
         }
     }
 }
