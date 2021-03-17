@@ -180,14 +180,12 @@ class LoggingHandler:
                     **kwargs
                 )
 
-        kwargs_new = kwargs
-        kwargs_new["stacklevel"] = 4
         _ = self.log_thread_pool_executor.submit(
             __consolidated_logging_function,
             logging_level,
             message,
             *args,
-            **kwargs_new
+            **kwargs
         )  
 
     def _log_process(
