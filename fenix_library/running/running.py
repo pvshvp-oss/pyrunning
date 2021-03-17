@@ -173,7 +173,6 @@ class LoggingHandler:
             **kwargs
         ) -> None:
             
-            kwargs["stacklevel"] = 2
             for logging_function in self.logging_functions:
                 logging_function(
                     logging_level,
@@ -182,12 +181,14 @@ class LoggingHandler:
                     **kwargs
                 )
 
+        kwargs_new = kwargs
+        kwargs_new["stacklevel"] = 2
         _ = self.log_thread_pool_executor.submit(
             __consolidated_logging_function,
             logging_level,
             message,
             *args,
-            **kwargs
+            **kwargs_new
         )  
 
     def _log_process(
