@@ -172,7 +172,9 @@ class LoggingHandler:
             *args,
             **kwargs
         ) -> None:
-           for logging_function in self.logging_functions:
+            
+            kwargs["stacklevel"] = 2
+            for logging_function in self.logging_functions:
                 logging_function(
                     logging_level,
                     message,
