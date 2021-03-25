@@ -149,11 +149,12 @@ class LoggingHandler():
         stacklevel=1,
         **kwargs
     ) -> None:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler._find_caller(stacklevel)
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel)
         # print("#############")
         # print("Caller info")
         # print("#############")
-        # print(LoggingHandler._find_caller(stacklevel))
+        # print(self._find_caller(stack_info, stacklevel))
+        # print("stack_info: ", stack_info)
         # print("#############")
         self._log_message(
             logging_level,
@@ -171,14 +172,16 @@ class LoggingHandler():
         process: subprocess.Popen,
         is_silent: bool,
         *args,
+        stack_info=False,
         stacklevel=1,
         **kwargs
     ) -> Future:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler._find_caller(stacklevel)
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel)
         # print("#############")
         # print("Caller info")
         # print("#############")
-        # print(LoggingHandler._find_caller(stacklevel))
+        # print(self._find_caller(stack_info, stacklevel))
+        # print("stack_info: ", stack_info)
         # print("#############")
         future = self._log_process(
             process,
@@ -230,8 +233,7 @@ class LoggingHandler():
 
     # PRIVATE METHODS
 
-    @staticmethod
-    def _find_caller(stack_info = "", stacklevel = 1):
+    def _find_caller(self, stack_info = False, stacklevel = 1):
         # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
@@ -255,7 +257,7 @@ class LoggingHandler():
             #exception on some versions of IronPython. We trap it here so that
             #IronPython can use logging.
             try:
-                fn, lno, func, sinfo = logging.Logger.findCaller(stack_info, stacklevel)
+                fn, lno, func, sinfo = self.logger.findCaller(stack_info, stacklevel)
             except ValueError: # pragma: no cover
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
@@ -271,7 +273,7 @@ class LoggingHandler():
         fn= "Unknown File",
         lno= -1,
         func= "Unknown Function",
-        sinfo= "Stack trace not available",
+        sinfo= None,
         exc_info=None,
         extra=None,
         **kwargs,
