@@ -150,6 +150,9 @@ class LoggingHandler(logging.Logger):
         **kwargs
     ) -> None:
         loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller()
+        print("######################")
+        print(self._find_caller())
+        print("######################")
         self._log_message(
             logging_level,
             message,
