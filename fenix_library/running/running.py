@@ -46,7 +46,7 @@ class LoggingLevel(Enum):
 
 # PUBLIC CLASSES
 
-class LoggingHandler(logging.Logger):
+class LoggingHandler():
     """
     A class to handle logging in any particular module. 
 
@@ -149,12 +149,12 @@ class LoggingHandler(logging.Logger):
         stacklevel=1,
         **kwargs
     ) -> None:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stacklevel=2)
-        print("#############")
-        print("Caller info")
-        print("#############")
-        print(self._find_caller())
-        print("#############")
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler._find_caller(stacklevel)
+        # print("#############")
+        # print("Caller info")
+        # print("#############")
+        # print(LoggingHandler._find_caller(stacklevel))
+        # print("#############")
         self._log_message(
             logging_level,
             message,
@@ -171,14 +171,15 @@ class LoggingHandler(logging.Logger):
         process: subprocess.Popen,
         is_silent: bool,
         *args,
+        stacklevel=1,
         **kwargs
     ) -> Future:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stacklevel=2)
-        print("#############")
-        print("Caller info")
-        print("#############")
-        print(self._find_caller())
-        print("#############")
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler._find_caller(stacklevel)
+        # print("#############")
+        # print("Caller info")
+        # print("#############")
+        # print(LoggingHandler._find_caller(stacklevel))
+        # print("#############")
         future = self._log_process(
             process,
             is_silent,
@@ -196,27 +197,41 @@ class LoggingHandler(logging.Logger):
         level,
         msg,
         *args,
-        loginfo_filename="Unknown",
-        loginfo_line_number=0,
-        loginfo_function_name="Unknown",
-        loginfo_stack_info="",
+        loginfo_filename="Unknown File",
+        loginfo_line_number=-1,
+        loginfo_function_name="Unknown Function",
+        loginfo_stack_info="Stack trace not available",
         **kwargs
         ):
+
+        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        # print("standard_logging_function function")
+        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        # print("logging_level: ", level)
+        # print("message: ", msg)
+        # print("loginfo_filename: ", loginfo_filename)
+        # print("loginfo_line_number: ", loginfo_line_number)
+        # print("loginfo_function_name: ", loginfo_function_name)
+        # print("loginfo_stack_info: ", loginfo_stack_info)
+        # print("args: ", args)
+        # print("kwargs: ", kwargs)
+        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
         self._log(
-            self,
-            loginfo_filename,
-            loginfo_line_number,
-            loginfo_function_name,
-            loginfo_stack_info,
             level,
             msg,
             *args,
+            fn= loginfo_filename,
+            lno= loginfo_line_number,
+            func= loginfo_function_name,
+            sinfo= loginfo_stack_info,
             **kwargs
         )
 
     # PRIVATE METHODS
 
-    def _find_caller(self, stack_info = "", stacklevel = 1):
+    @staticmethod
+    def _find_caller(stack_info = "", stacklevel = 1):
         # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
@@ -235,12 +250,12 @@ class LoggingHandler(logging.Logger):
         # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
         sinfo = None
-        if os.path.normcase(self.log_message.__code__.co_filename):
+        if os.path.normcase(LoggingHandler.log_message.__code__.co_filename):
             #IronPython doesn't track Python frames, so findCaller raises an
             #exception on some versions of IronPython. We trap it here so that
             #IronPython can use logging.
             try:
-                fn, lno, func, sinfo = logging.Logger.findCaller(stack_info, stacklevel + 1)
+                fn, lno, func, sinfo = logging.Logger.findCaller(stack_info, stacklevel)
             except ValueError: # pragma: no cover
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
@@ -248,7 +263,20 @@ class LoggingHandler(logging.Logger):
 
         return fn, lno, func, sinfo
 
-    def _log(self, fn, lno, func, sinfo, level, msg, *args, exc_info=None, extra=None):
+    def _log(
+        self,
+        level,
+        msg,
+        *args,
+        fn= "Unknown File",
+        lno= -1,
+        func= "Unknown Function",
+        sinfo= "Stack trace not available",
+        exc_info=None,
+        extra=None,
+        **kwargs,
+        ):
+
         # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
@@ -277,6 +305,21 @@ class LoggingHandler(logging.Logger):
         #         fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         # else: # pragma: no cover
         #     fn, lno, func = "(unknown file)", 0, "(unknown function)"
+
+        # print("***********************")
+        # print("* Name: ", self.logger.name)
+        # print("* Level: ", level)
+        # print("* Filename: ", fn)
+        # print("* Line number: ", lno)
+        # print("* Message: ", msg)
+        # print("* Args: ", args)
+        # print("* Kwargs: ", kwargs)
+        # print("* Exception information: ", exc_info)
+        # print("* Function: ", func)
+        # print("* Extra: ", extra)
+        # print("* Stack Info: ", sinfo)
+        # print("***********************")
+
         if self.logger is None:
             return
         if exc_info:
@@ -284,18 +327,6 @@ class LoggingHandler(logging.Logger):
                 exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
             elif not isinstance(exc_info, tuple):
                 exc_info = sys.exc_info()
-        print("***********************")
-        print("Name: ", self.logger.name)
-        print("Level: ", level)
-        print("Filename: ", fn)
-        print("Line number: ", lno)
-        print("Message: ", msg)
-        print("Args: ", args)
-        print("Exception information: ", exc_info)
-        print("Function: ", func)
-        print("Extra: ", extra)
-        print("Stack Info: ", sinfo)
-        print("***********************")
         record = self.logger.makeRecord(self.logger.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
         self.logger.handle(record)
 
@@ -329,6 +360,16 @@ class LoggingHandler(logging.Logger):
         Nothing
         """
 
+        # print("######################")
+        # print("_log_message function")
+        # print("######################")
+        # print("logging_level: ", logging_level)
+        # print("message: ", message)
+        # print("args: ", args)
+        # print("kwargs: ", kwargs)
+        # print("logging_functions: ", len(self.logging_functions))
+        # print("######################")
+
         # Combine all logging methods into one function
         def __consolidated_logging_function(
             logging_level: int,
@@ -352,14 +393,14 @@ class LoggingHandler(logging.Logger):
             **kwargs
         )  
 
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print("In the _log_message method")
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print("logging_level: ", logging_level)
-        print("message: ", message)
-        print("args: ", args)
-        print("kwargs: ", kwargs)
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        # print("In the _log_message method")
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        # print("logging_level: ", logging_level)
+        # print("message: ", message)
+        # print("args: ", args)
+        # print("kwargs: ", kwargs)
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
     def _log_process(
         self,
