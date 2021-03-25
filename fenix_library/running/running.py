@@ -72,6 +72,7 @@ class LoggingHandler(logging.Logger):
     def __init__(
         self,
         logging_functions: List[Callable[[int, str, Any], Any]],
+        logger: logging.Logger = None,
         process_thread_name_prefix: str = "",
         log_thread_name_prefix: str = ""
     ) -> None:
@@ -80,6 +81,8 @@ class LoggingHandler(logging.Logger):
 
         Parameters
         ----------
+        logger: logging.Logger
+            The logger to be used
         logging_functions: List[Callable[[int, str, Any], Any]]
             A list of functions that are to be called with (logging_level: int, message: str, *args, **kwargs) in order to do the logging
             This may contain the Python standard logging.Logger.log(...) function, along with any functions that can write logs to the user interface (UI)
@@ -89,8 +92,10 @@ class LoggingHandler(logging.Logger):
         Nothing
         """
 
-        # Initialize attributes from the give parameters
-        self.logging_functions: List[Callable[[int, str, Any], Any]] = logging_functions
+        # Initialize attributes from the give 
+        self.logger = logger
+        self.logging_functions: List[Callable[[int, str, Any], Any]] = [self.standard_logging_function]
+        self.logging_functions.extend(logging_functions)
 
         # Initialize other parameters
         self.process_output_thread_pool_executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers= 1, thread_name_prefix= process_thread_name_prefix + "_out_")
@@ -262,13 +267,15 @@ class LoggingHandler(logging.Logger):
         #         fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         # else: # pragma: no cover
         #     fn, lno, func = "(unknown file)", 0, "(unknown function)"
+        if self.logger is None:
+            return
         if exc_info:
             if isinstance(exc_info, BaseException):
                 exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
             elif not isinstance(exc_info, tuple):
                 exc_info = sys.exc_info()
-        record = self.makeRecord(self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
-        self.handle(record)
+        record = self.logger.makeRecord(self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
+        self.logger.handle(record)
 
     def _log_message(
         self,
