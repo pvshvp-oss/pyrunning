@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 import itertools
 from queue import Queue
 from concurrent.futures import Future
+import sys
 
 # PRIVATE CLASSES
 
@@ -45,7 +46,7 @@ class LoggingLevel(Enum):
 
 # PUBLIC CLASSES
 
-class LoggingHandler:
+class LoggingHandler(logging.Logger):
     """
     A class to handle logging in any particular module. 
 
@@ -133,7 +134,141 @@ class LoggingHandler:
         except:
             pass
 
+    # REGULAR METHODS  
+    def log_message(
+        self,
+        logging_level: int = LoggingLevel.DEBUG.value,
+        message: str = "",
+        *args,
+        stack_info=False,
+        stacklevel=1,
+        **kwargs
+    ) -> None:
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller()
+        self._log_message(
+            logging_level,
+            message,
+            *args,
+            loginfo_filename = loginfo_filename,
+            loginfo_line_number = loginfo_line_number,
+            loginfo_function_name = loginfo_function_name,
+            loginfo_stack_info = loginfo_stack_info,
+            **kwargs
+        )
+
+    def log_process(
+        self,
+        process: subprocess.Popen,
+        is_silent: bool,
+        *args,
+        **kwargs
+    ) -> Future:
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller()
+        future = self._log_process(
+            process,
+            is_silent,
+            *args,
+            loginfo_filename = loginfo_filename,
+            loginfo_line_number = loginfo_line_number,
+            loginfo_function_name = loginfo_function_name,
+            loginfo_stack_info = loginfo_stack_info,
+            **kwargs
+        ) 
+        return future
+
+    def standard_logging_function(
+        self,
+        level,
+        msg,
+        *args,
+        loginfo_filename="Unknown",
+        loginfo_line_number=0,
+        loginfo_function_name="Unknown",
+        loginfo_stack_info="",
+        **kwargs
+        ):
+        self._log(
+            self,
+            loginfo_filename,
+            loginfo_line_number,
+            loginfo_function_name,
+            loginfo_stack_info,
+            level,
+            msg,
+            *args,
+            **kwargs
+        )
+
     # PRIVATE METHODS
+
+    def _find_caller(self, stack_info = "", stacklevel = 1):
+        # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
+        # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
+        #
+        # Permission to use, copy, modify, and distribute this software and its
+        # documentation for any purpose and without fee is hereby granted,
+        # provided that the above copyright notice appear in all copies and that
+        # both that copyright notice and this permission notice appear in
+        # supporting documentation, and that the name of Vinay Sajip
+        # not be used in advertising or publicity pertaining to distribution
+        # of the software without specific, written prior permission.
+        # VINAY SAJIP DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+        # ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+        # VINAY SAJIP BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+        # ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+        # IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+        # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+        sinfo = None
+        if os.path.normcase(self.log_message.__code__.co_filename):
+            #IronPython doesn't track Python frames, so findCaller raises an
+            #exception on some versions of IronPython. We trap it here so that
+            #IronPython can use logging.
+            try:
+                fn, lno, func, sinfo = logging.Logger.findCaller(stack_info, stacklevel + 1)
+            except ValueError: # pragma: no cover
+                fn, lno, func = "(unknown file)", 0, "(unknown function)"     
+        else: # pragma: no cover
+            fn, lno, func = "(unknown file)", 0, "(unknown function)"
+
+        return fn, lno, func, sinfo
+
+    def _log(self, fn, lno, func, sinfo, level, msg, *args, exc_info=None, extra=None):
+        # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
+        # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
+        #
+        # Permission to use, copy, modify, and distribute this software and its
+        # documentation for any purpose and without fee is hereby granted,
+        # provided that the above copyright notice appear in all copies and that
+        # both that copyright notice and this permission notice appear in
+        # supporting documentation, and that the name of Vinay Sajip
+        # not be used in advertising or publicity pertaining to distribution
+        # of the software without specific, written prior permission.
+        # VINAY SAJIP DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+        # ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+        # VINAY SAJIP BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+        # ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+        # IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+        # OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+        # sinfo = None
+        # if os.path.normcase(self.log_message.__code__.co_filename):
+        #     #IronPython doesn't track Python frames, so findCaller raises an
+        #     #exception on some versions of IronPython. We trap it here so that
+        #     #IronPython can use logging.
+        #     try:
+        #         fn, lno, func, sinfo = logging.Logger.findCaller(stack_info, stacklevel)
+        #     except ValueError: # pragma: no cover
+        #         fn, lno, func = "(unknown file)", 0, "(unknown function)"     
+        # else: # pragma: no cover
+        #     fn, lno, func = "(unknown file)", 0, "(unknown function)"
+        if exc_info:
+            if isinstance(exc_info, BaseException):
+                exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
+            elif not isinstance(exc_info, tuple):
+                exc_info = sys.exc_info()
+        record = self.makeRecord(self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
+        self.handle(record)
 
     def _log_message(
         self,
@@ -191,7 +326,9 @@ class LoggingHandler:
     def _log_process(
         self,
         process: subprocess.Popen,
-        is_silent: bool
+        is_silent: bool,
+        *args,
+        **kwargs
     ) -> Future:
         """
         Handles the logging of both stdout and stderr of a process
@@ -220,8 +357,8 @@ class LoggingHandler:
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
-                        *log_message.args,
-                        **log_message.kwargs
+                        *args,
+                        **kwargs
                     )
                     self.process_futures.append(future)
             return total_output
@@ -246,8 +383,8 @@ class LoggingHandler:
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
-                        *log_message.args,
-                        **log_message.kwargs
+                        *args,
+                        **kwargs
                     )
                     self.process_futures.append(future)
             return total_output
@@ -582,7 +719,7 @@ class LogMessage:
         """
 
         if not self.is_silent and (logging_handler is not None): 
-            logging_handler._log_message(
+            logging_handler.log_message(
                 self.logging_level.value,
                 self.message,
                 *self.args,
@@ -1401,7 +1538,7 @@ class Command(AbstractRunnable):
         self.is_running = True
         self.has_completed = False       
 
-        output_future = logging_handler._log_process(process, self.is_silent)
+        output_future = logging_handler.log_process(process, self.is_silent)
         process.wait()
         self.output = output_future.result()
 
