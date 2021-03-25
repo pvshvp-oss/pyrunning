@@ -274,7 +274,7 @@ class LoggingHandler(logging.Logger):
                 exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
             elif not isinstance(exc_info, tuple):
                 exc_info = sys.exc_info()
-        record = self.logger.makeRecord(self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
+        record = self.logger.makeRecord(self.logger.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
         self.logger.handle(record)
 
     def _log_message(
