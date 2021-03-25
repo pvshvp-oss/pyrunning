@@ -149,7 +149,7 @@ class LoggingHandler():
         stacklevel=1,
         **kwargs
     ) -> None:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel)
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
         # print("#############")
         # print("Caller info")
         # print("#############")
@@ -176,7 +176,7 @@ class LoggingHandler():
         stacklevel=1,
         **kwargs
     ) -> Future:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel)
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
         # print("#############")
         # print("Caller info")
         # print("#############")
