@@ -274,6 +274,18 @@ class LoggingHandler(logging.Logger):
                 exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
             elif not isinstance(exc_info, tuple):
                 exc_info = sys.exc_info()
+        print("***********************")
+        print("Name: ", self.logger.name)
+        print("Level: ", level)
+        print("Filename: ", fn)
+        print("Line number: ", lno)
+        print("Message: ", msg)
+        print("Args: ", args)
+        print("Exception information: ", exc_info)
+        print("Function: ", func)
+        print("Extra: ", extra)
+        print("Stack Info: ", sinfo)
+        print("***********************")
         record = self.logger.makeRecord(self.logger.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
         self.logger.handle(record)
 
