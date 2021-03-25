@@ -71,8 +71,8 @@ class LoggingHandler(logging.Logger):
 
     def __init__(
         self,
-        logging_functions: List[Callable[[int, str, Any], Any]],
         logger: logging.Logger = None,
+        logging_functions: List[Callable[[int, str, Any], Any]] = [],
         process_thread_name_prefix: str = "",
         log_thread_name_prefix: str = ""
     ) -> None:
