@@ -149,10 +149,12 @@ class LoggingHandler(logging.Logger):
         stacklevel=1,
         **kwargs
     ) -> None:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller()
-        print("######################")
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stacklevel=2)
+        print("#############")
+        print("Caller info")
+        print("#############")
         print(self._find_caller())
-        print("######################")
+        print("#############")
         self._log_message(
             logging_level,
             message,
@@ -171,7 +173,12 @@ class LoggingHandler(logging.Logger):
         *args,
         **kwargs
     ) -> Future:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller()
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stacklevel=2)
+        print("#############")
+        print("Caller info")
+        print("#############")
+        print(self._find_caller())
+        print("#############")
         future = self._log_process(
             process,
             is_silent,
@@ -344,6 +351,15 @@ class LoggingHandler(logging.Logger):
             *args,
             **kwargs
         )  
+
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("In the _log_message method")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("logging_level: ", logging_level)
+        print("message: ", message)
+        print("args: ", args)
+        print("kwargs: ", kwargs)
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
     def _log_process(
         self,
