@@ -145,10 +145,11 @@ class LoggingHandler():
         logging_level: int = LoggingLevel.DEBUG.value,
         message: str = "",
         *args,
+        is_silent= False,
         loginfo_filename= "Unknown File",
         loginfo_line_number= 0,
-        loginfo_function_name= "Unknown Funnction",
-        loginfo_stack_info= "No stack information available",
+        loginfo_function_name= "Unknown Function",
+        loginfo_stack_info= None,
         **kwargs
     ) -> None:
         # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + stack_offset)
@@ -162,6 +163,7 @@ class LoggingHandler():
             logging_level,
             message,
             *args,
+            is_silent= is_silent,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -172,12 +174,12 @@ class LoggingHandler():
     def log_process(
         self,
         process: subprocess.Popen,
-        is_silent: bool,
         *args,
+        is_silent:bool= False,
         loginfo_filename= "Unknown File",
         loginfo_line_number= 0,
-        loginfo_function_name= "Unknown Funnction",
-        loginfo_stack_info= "No stack information available",
+        loginfo_function_name= "Unknown Function",
+        loginfo_stack_info= None,
         **kwargs
     ) -> Future:
         # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + 1)
@@ -189,8 +191,8 @@ class LoggingHandler():
         # print("#############")
         future = self._log_process(
             process,
-            is_silent,
             *args,
+            is_silent= is_silent,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -206,8 +208,8 @@ class LoggingHandler():
         *args,
         loginfo_filename= "Unknown File",
         loginfo_line_number= 0,
-        loginfo_function_name= "Unknown Funnction",
-        loginfo_stack_info= "No stack information available",
+        loginfo_function_name= "Unknown Function",
+        loginfo_stack_info= None,
         **kwargs
         ):
 
@@ -344,10 +346,11 @@ class LoggingHandler():
         logging_level: int = LoggingLevel.DEBUG.value,
         message: str = "",
         *args,
+        is_silent= False,
         loginfo_filename= "Unknown File",
         loginfo_line_number= 0,
-        loginfo_function_name= "Unknown Funnction",
-        loginfo_stack_info= "No stack information available",
+        loginfo_function_name= "Unknown Function",
+        loginfo_stack_info= None,
         **kwargs
     ) -> None:
         """
@@ -382,6 +385,9 @@ class LoggingHandler():
         # print("kwargs: ", kwargs)
         # print("logging_functions: ", len(self.logging_functions))
         # print("######################")
+
+        if is_silent:
+            return
 
         # Combine all logging methods into one function
         def __consolidated_logging_function(
@@ -430,12 +436,12 @@ class LoggingHandler():
     def _log_process(
         self,
         process: subprocess.Popen,
-        is_silent: bool,
         *args,
+        is_silent= False,
         loginfo_filename= "Unknown File",
         loginfo_line_number= 0,
-        loginfo_function_name= "Unknown Funnction",
-        loginfo_stack_info= "No stack information available",
+        loginfo_function_name= "Unknown Function",
+        loginfo_stack_info= None,
         **kwargs
     ) -> Future:
         """
@@ -469,6 +475,7 @@ class LoggingHandler():
                         log_message.logging_level.value,
                         log_message.message,
                         *args,
+                        is_silent= is_silent,
                         loginfo_filename= loginfo_filename,
                         loginfo_line_number= loginfo_line_number,
                         loginfo_function_name= loginfo_function_name,
@@ -511,6 +518,7 @@ class LoggingHandler():
                         log_message.logging_level.value,
                         log_message.message,
                         *args,
+                        is_silent= is_silent,
                         loginfo_filename= loginfo_filename,
                         loginfo_line_number= loginfo_line_number,
                         loginfo_function_name= loginfo_function_name,
@@ -969,11 +977,12 @@ class LogMessage:
             The LoggingHandler object which stores the logging functions, logging threads, logger information, etc.
         """
 
-        if not self.is_silent and (logging_handler is not None): 
+        if (not self.is_silent) and (logging_handler is not None): 
             logging_handler.log_message(
                 self.logging_level.value,
                 self.message,
                 *self.args,
+                is_silent= False,
                 loginfo_filename= self.loginfo_filename,
                 loginfo_line_number= self.loginfo_line_number,
                 loginfo_function_name= self.loginfo_function_name,
@@ -1921,7 +1930,7 @@ class Command(AbstractRunnable):
 
         output_future = logging_handler.log_process(
             process,
-            self.is_silent,
+            is_silent= self.is_silent,
             loginfo_filename= self.loginfo_filename,
             loginfo_line_number= self.loginfo_line_number,
             loginfo_function_name= self.loginfo_function_name,

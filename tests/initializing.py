@@ -70,7 +70,7 @@ class InitializeLogging:
 
         subprocess.Popen(
             "ls -tp running* | grep -v '/$' | tail -n +" 
-                + str(no_of_files_to_keep + 1) 
+                + str(no_of_files_to_keep) 
                 + " | xargs -I {} rm -- {}",
             shell=True,
             cwd=pathlib.Path("./tests/log/")
