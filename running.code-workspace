@@ -13,7 +13,7 @@
 		"editor.showFoldingControls": "always",
 		"files.autoGuessEncoding": true,
 		"git.postCommitCommand": "sync",
-		"editor.wordWrap": "on",
+		"editor.wordWrap": "off",
 		"restructuredtext.confPath": "${workspaceFolder}/documentation/source"
 	},
 	"extensions": {

@@ -267,7 +267,7 @@ class LoggingHandler():
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
             fn, lno, func = "(unknown file)", 0, "(unknown function)"
-            
+
         fn = os.path.relpath(pathlib.Path(fn), start= os.getcwd())
 
         return fn, lno, func, sinfo
@@ -1919,7 +1919,14 @@ class Command(AbstractRunnable):
         self.is_running = True
         self.has_completed = False       
 
-        output_future = logging_handler.log_process(process, self.is_silent)
+        output_future = logging_handler.log_process(
+            process,
+            self.is_silent,
+            loginfo_filename= self.loginfo_filename,
+            loginfo_line_number= self.loginfo_line_number,
+            loginfo_function_name= self.loginfo_function_name,
+            loginfo_stack_info= self.loginfo_stack_info,            
+        )
         process.wait()
         self.output = output_future.result()
 

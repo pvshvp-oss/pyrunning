@@ -1,3 +1,4 @@
+from fenix_library.running.running import Command
 import unittest
 
 from fenix_library.running import LoggingHandler, LogMessage, Function
@@ -24,3 +25,6 @@ class Test_logging_handler(unittest.TestCase):
 
     def test_function_run(self):
         Function(len, [1,2,3,4,5]).run_and_log(self.logging_handler)
+
+    def test_command_run(self):
+        Command(["ping", "-c", "5", "www.google.com"]).run_log_and_wait(self.logging_handler)
