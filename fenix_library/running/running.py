@@ -147,9 +147,13 @@ class LoggingHandler():
         *args,
         stack_info=False,
         stacklevel=1,
+        is_indirect=False,
         **kwargs
     ) -> None:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
+        if is_indirect:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 2)
+        else:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
         # print("#############")
         # print("Caller info")
         # print("#############")
@@ -234,7 +238,7 @@ class LoggingHandler():
     # PRIVATE METHODS
 
     def _find_caller(self, stack_info = False, stacklevel = 1):
-        # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
+        # MODIFIED by shivanandvp@rebornos.org FROM THE ORIGINAL logging.Logger.findCaller() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
         # Permission to use, copy, modify, and distribute this software and its
@@ -279,7 +283,7 @@ class LoggingHandler():
         **kwargs,
         ):
 
-        # MODIFIED FROM THE ORIGINAL logging.Logger._log() method
+        # MODIFIED by shivanandvp@rebornos.org FROM THE ORIGINAL logging.Logger._log() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
         # Permission to use, copy, modify, and distribute this software and its
@@ -788,7 +792,8 @@ class LogMessage:
     # REGULAR METHODS
     def write(
         self,
-        logging_handler: LoggingHandler = None
+        logging_handler: LoggingHandler = None,
+        is_indirect= False
     ) -> None:
         """
         Writes to the Python logger
@@ -804,6 +809,7 @@ class LogMessage:
                 self.logging_level.value,
                 self.message,
                 *self.args,
+                is_indirect,
                 **self.kwargs
             )
 
@@ -1074,14 +1080,14 @@ class Function(AbstractRunnable, functools.partial):
         """
 
         # Log details about the function being run
-        LogMessage.Debug(message= "PYTHON> Calling: " + str(self.handle), is_silent= self.is_silent).write(logging_handler= logging_handler)
+        LogMessage.Debug(message= "PYTHON> Calling: " + str(self.handle), is_silent= self.is_silent, is_indirect= True).write(logging_handler= logging_handler)
 
         self.call_pre_run_function()
         self.output = str(self.__call__()) # Call the function and capture the output
         self.call_post_run_function()
 
         # Log the output
-        LogMessage.Debug(message= "P> Returned: " + self.output, is_silent= self.is_silent).write(logging_handler= logging_handler)
+        LogMessage.Debug(message= "P> Returned: " + self.output, is_silent= self.is_silent, is_indirect= True).write(logging_handler= logging_handler)
 
         return self.output   
 
@@ -1610,9 +1616,9 @@ class Command(AbstractRunnable):
 
         # Log details about the command being run
         if self.on_shell:
-            LogMessage.Debug(message= "SHELL> " + self.command_string, is_silent= self.is_silent).write(logging_handler= logging_handler)
+            LogMessage.Debug(message= "SHELL> " + self.command_string, is_silent= self.is_silent, is_indirect= True).write(logging_handler= logging_handler)
         else:
-            LogMessage.Debug(message= "OS> " + " ".join(self.command_strings), is_silent= self.is_silent).write(logging_handler= logging_handler)
+            LogMessage.Debug(message= "OS> " + " ".join(self.command_strings), is_silent= self.is_silent, is_indirect= True).write(logging_handler= logging_handler)
 
         # Start the execution
         process: subprocess.Popen = self.start()   
@@ -1627,11 +1633,11 @@ class Command(AbstractRunnable):
         leftover_error: str = process.communicate()[1]
         if leftover_output is not None:
             leftover_output = leftover_output.strip()
-            LogMessage.Debug(message= leftover_output).write(logging_handler= logging_handler)
+            LogMessage.Debug(message= leftover_output, is_indirect= True).write(logging_handler= logging_handler)
             self.output = self.output + leftover_output
         if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
             leftover_error = leftover_error.strip()
-            LogMessage.Error(message= leftover_error).write(logging_handler= logging_handler)
+            LogMessage.Error(message= leftover_error, is_indirect= True).write(logging_handler= logging_handler)
             self.output = self.output + leftover_error
             
         self.is_running = False
@@ -1659,9 +1665,9 @@ class Command(AbstractRunnable):
         """
 
         if self.on_shell:
-            LogMessage.Critical(message= "Aborting the currently running command `" + self.command_string + "`", is_silent= self.is_silent).write(logging_handler= logging_handler)
+            LogMessage.Critical(message= "Aborting the currently running command `" + self.command_string + "`", is_silent= self.is_silent, is_indirect= True).write(logging_handler= logging_handler)
         else:
-            LogMessage.Critical(message= "Aborting the currently running command `" + " ".join(self.command_strings) + "`", is_silent= self.is_silent).write(logging_handler=logging_handler)
+            LogMessage.Critical(message= "Aborting the currently running command `" + " ".join(self.command_strings) + "`", is_silent= self.is_silent, is_indirect= True).write(logging_handler=logging_handler)
 
         self.do_abort = True
 
@@ -2411,7 +2417,8 @@ class BatchJob(AbstractRunnable):
 
         LogMessage.Critical(
             message= "An abort request has been received. Terminating the currently running process and exiting...",
-            is_silent= False
+            is_silent= False,
+            is_indirect= True
         ).write(logging_handler= self.logging_handler)
         self.do_abort = True
         self.clear_tasks()
