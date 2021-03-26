@@ -40,7 +40,7 @@ class InitializeLogging:
         log_file_handler = logging.FileHandler(log_file_path) # for logging onto files
         log_file_handler.setLevel(logging.DEBUG) # log debug messages and higher
         # log_file_formatter = logging.Formatter('[%(asctime)s, %(levelname)-8s, %(name)s] %(message)s', '%Y-%m-%d, %H:%M:%S %Z') # old format of each log file entry
-        log_file_formatter = logging.Formatter('%(asctime)s [%(levelname)8s] %(message)s (%(filename)s > %(funcName)s; Line %(lineno)d)', '%Y-%m-%d %H:%M:%S %Z') # format of each log file entry
+        log_file_formatter = logging.Formatter('%(asctime)s [%(levelname)8s] %(message)s (%(pathname)s > %(funcName)s; Line %(lineno)d)', '%Y-%m-%d %H:%M:%S %Z') # format of each log file entry
         log_file_handler.setFormatter(log_file_formatter)
         logger.addHandler(log_file_handler)
 

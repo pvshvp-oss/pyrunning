@@ -267,6 +267,8 @@ class LoggingHandler():
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
             fn, lno, func = "(unknown file)", 0, "(unknown function)"
+            
+        fn = os.path.relpath(pathlib.Path(fn), start= os.getcwd())
 
         return fn, lno, func, sinfo
 
