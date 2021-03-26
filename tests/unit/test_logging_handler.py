@@ -1,11 +1,11 @@
 import unittest
 
-from fenix_library.running import LoggingHandler
+from fenix_library.running import LoggingHandler, LogMessage
 from tests.initializing import InitializeLogging
 
 import logging
  
-class Test_log_message(unittest.TestCase):
+class Test_logging_handler(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -14,4 +14,10 @@ class Test_log_message(unittest.TestCase):
         cls.logging_handler = LoggingHandler(cls.logger)
 
     def test_debug_message(self):
-        self.logging_handler.log_message(10, "Test message")
+        self.logging_handler.log_message(10, "Test message 1")
+
+    def test_debug_message_direct(self):
+        LogMessage.Debug("Test message 2").write(self.logging_handler)
+
+    def test_debug_message_indirect(self):
+        LogMessage.Debug("Test message 3").write(self.logging_handler)

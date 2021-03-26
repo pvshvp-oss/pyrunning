@@ -145,29 +145,27 @@ class LoggingHandler():
         logging_level: int = LoggingLevel.DEBUG.value,
         message: str = "",
         *args,
-        stack_info=False,
-        stacklevel=1,
-        is_indirect=False,
+        loginfo_filename= "Unknown File",
+        loginfo_line_number= 0,
+        loginfo_function_name= "Unknown Funnction",
+        loginfo_stack_info= "No stack information available",
         **kwargs
     ) -> None:
-        if is_indirect:
-            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 2)
-        else:
-            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
+        # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + stack_offset)
         # print("#############")
         # print("Caller info")
         # print("#############")
-        # print(self._find_caller(stack_info, stacklevel))
+        # print(self.find_caller(stack_info, stacklevel))
         # print("stack_info: ", stack_info)
         # print("#############")
         self._log_message(
             logging_level,
             message,
             *args,
-            loginfo_filename = loginfo_filename,
-            loginfo_line_number = loginfo_line_number,
-            loginfo_function_name = loginfo_function_name,
-            loginfo_stack_info = loginfo_stack_info,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -176,25 +174,27 @@ class LoggingHandler():
         process: subprocess.Popen,
         is_silent: bool,
         *args,
-        stack_info=False,
-        stacklevel=1,
+        loginfo_filename= "Unknown File",
+        loginfo_line_number= 0,
+        loginfo_function_name= "Unknown Funnction",
+        loginfo_stack_info= "No stack information available",
         **kwargs
     ) -> Future:
-        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self._find_caller(stack_info, stacklevel + 1)
+        # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + 1)
         # print("#############")
         # print("Caller info")
         # print("#############")
-        # print(self._find_caller(stack_info, stacklevel))
+        # print(self.find_caller(stack_info, stacklevel))
         # print("stack_info: ", stack_info)
         # print("#############")
         future = self._log_process(
             process,
             is_silent,
             *args,
-            loginfo_filename = loginfo_filename,
-            loginfo_line_number = loginfo_line_number,
-            loginfo_function_name = loginfo_function_name,
-            loginfo_stack_info = loginfo_stack_info,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         ) 
         return future
@@ -204,10 +204,10 @@ class LoggingHandler():
         level,
         msg,
         *args,
-        loginfo_filename="Unknown File",
-        loginfo_line_number=-1,
-        loginfo_function_name="Unknown Function",
-        loginfo_stack_info="Stack trace not available",
+        loginfo_filename= "Unknown File",
+        loginfo_line_number= 0,
+        loginfo_function_name= "Unknown Funnction",
+        loginfo_stack_info= "No stack information available",
         **kwargs
         ):
 
@@ -237,7 +237,8 @@ class LoggingHandler():
 
     # PRIVATE METHODS
 
-    def _find_caller(self, stack_info = False, stacklevel = 1):
+    @staticmethod
+    def find_caller(stack_info = False, stacklevel = 1):
         # MODIFIED by shivanandvp@rebornos.org FROM THE ORIGINAL logging.Logger.findCaller() method
         # Copyright 2001-2019 by Vinay Sajip. All Rights Reserved.
         #
@@ -261,7 +262,7 @@ class LoggingHandler():
             #exception on some versions of IronPython. We trap it here so that
             #IronPython can use logging.
             try:
-                fn, lno, func, sinfo = self.logger.findCaller(stack_info, stacklevel)
+                fn, lno, func, sinfo = logging.Logger.findCaller(None, stack_info= stack_info, stacklevel= stacklevel + 1)
             except ValueError: # pragma: no cover
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
@@ -341,6 +342,10 @@ class LoggingHandler():
         logging_level: int = LoggingLevel.DEBUG.value,
         message: str = "",
         *args,
+        loginfo_filename= "Unknown File",
+        loginfo_line_number= 0,
+        loginfo_function_name= "Unknown Funnction",
+        loginfo_stack_info= "No stack information available",
         **kwargs
     ) -> None:
         """
@@ -381,6 +386,10 @@ class LoggingHandler():
             logging_level: int,
             message: str,
             *args,
+            loginfo_filename= None,
+            loginfo_line_number= None,
+            loginfo_function_name= None,
+            loginfo_stack_info= None,
             **kwargs
         ) -> None:
             for logging_function in self.logging_functions:
@@ -388,6 +397,10 @@ class LoggingHandler():
                     logging_level,
                     message,
                     *args,
+                    loginfo_filename= loginfo_filename,
+                    loginfo_line_number= loginfo_line_number,
+                    loginfo_function_name= loginfo_function_name,
+                    loginfo_stack_info= loginfo_stack_info,
                     **kwargs
                 )
 
@@ -396,6 +409,10 @@ class LoggingHandler():
             logging_level,
             message,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )  
 
@@ -413,6 +430,10 @@ class LoggingHandler():
         process: subprocess.Popen,
         is_silent: bool,
         *args,
+        loginfo_filename= "Unknown File",
+        loginfo_line_number= 0,
+        loginfo_function_name= "Unknown Funnction",
+        loginfo_stack_info= "No stack information available",
         **kwargs
     ) -> Future:
         """
@@ -437,12 +458,19 @@ class LoggingHandler():
                     output_line = output_line.strip()
                     if not output_line.startswith("S>"):
                         total_output = total_output + output_line
-                    log_message: LogMessage = LogMessage.Debug(message= output_line, is_silent= is_silent)
+                    log_message: LogMessage = LogMessage.Debug(
+                        message= output_line,
+                        is_silent= is_silent
+                    )
                     future = self.log_thread_pool_executor.submit(
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
                         *args,
+                        loginfo_filename= loginfo_filename,
+                        loginfo_line_number= loginfo_line_number,
+                        loginfo_function_name= loginfo_function_name,
+                        loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
                     self.process_futures.append(future)
@@ -454,21 +482,37 @@ class LoggingHandler():
                 for error_line in iter(process.stderr):
                     error_line = error_line.strip()
                     if "critical" in error_line.lower() or "fatal" in error_line.lower():  # If either of the words "critical" or "fatal" is found in stderr
-                        log_message: LogMessage = LogMessage.Critical(message= error_line, is_silent= is_silent)
+                        log_message: LogMessage = LogMessage.Critical(
+                            message= error_line,
+                            is_silent= is_silent
+                        )
                     elif "error" in error_line.lower() or "exception" in error_line.lower(): # If either of the words "error" or "exception" is found in stderr
-                        log_message: LogMessage = LogMessage.Error(message= error_line, is_silent= is_silent)
+                        log_message: LogMessage = LogMessage.Error(
+                            message= error_line,
+                            is_silent= is_silent
+                        )
                     elif "warning" in error_line.lower() or "caution" in error_line.lower(): # If either of the words "warning" or "caution" is found in stderr
-                        log_message: LogMessage = LogMessage.Warning(message= error_line, is_silent= is_silent)  
+                        log_message: LogMessage = LogMessage.Warning(
+                            message= error_line,
+                            is_silent= is_silent
+                        )  
                     elif error_line.isspace() or len(error_line) == 0: 
                         continue
                     else:
-                        log_message: LogMessage = LogMessage.Error(message= error_line, is_silent= is_silent)
+                        log_message: LogMessage = LogMessage.Error(
+                            message= error_line,
+                            is_silent= is_silent
+                        )
                     total_output = total_output + error_line  
                     future = self.log_thread_pool_executor.submit(
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
                         *args,
+                        loginfo_filename= loginfo_filename,
+                        loginfo_line_number= loginfo_line_number,
+                        loginfo_function_name= loginfo_function_name,
+                        loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
                     self.process_futures.append(future)
@@ -555,6 +599,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     )-> None:
         """
@@ -586,7 +637,18 @@ class LogMessage:
         self.message: str = message
         self.is_silent: bool = is_silent
         self.args: Tuple[Any, ...] = args
-        self.kwargs: Dict[str, Any] = kwargs    
+        self.kwargs: Dict[str, Any] = kwargs
+        
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
+        self.loginfo_filename= loginfo_filename
+        self.loginfo_line_number= loginfo_line_number
+        self.loginfo_function_name= loginfo_function_name
+        self.loginfo_stack_info= loginfo_stack_info    
 
     # CLASS METHODS TO CREATE SPECIAL LOG OBJECTS
     # Usage example: log_message = LogMessage.Debug("Test message")
@@ -597,6 +659,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -616,11 +685,21 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.CRITICAL,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -630,6 +709,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -649,11 +735,21 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.EXCEPTION,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -663,6 +759,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -682,11 +785,21 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.ERROR,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -696,6 +809,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -715,11 +835,21 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.WARNING,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -729,6 +859,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -748,11 +885,21 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.INFO,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
@@ -762,6 +909,13 @@ class LogMessage:
         message: str = "",
         is_silent: bool = False,
         *args,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **kwargs
     ) -> LogMessage:
         """
@@ -781,19 +935,28 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         return cls(
             logging_level= LogMessage.DEBUG,
             message= message,
             is_silent= is_silent,
             *args,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
             **kwargs
         )
 
     # REGULAR METHODS
     def write(
         self,
-        logging_handler: LoggingHandler = None,
-        is_indirect= False
+        logging_handler: LoggingHandler = None
     ) -> None:
         """
         Writes to the Python logger
@@ -809,7 +972,10 @@ class LogMessage:
                 self.logging_level.value,
                 self.message,
                 *self.args,
-                is_indirect,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
                 **self.kwargs
             )
 
@@ -845,7 +1011,11 @@ class AbstractRunnable(ABC):
         is_silent: bool = False,
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
-        do_send_output_to_post_run_function: bool = False
+        do_send_output_to_post_run_function: bool = False,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
     ) -> None:
         """
         Initializes the current instance
@@ -871,6 +1041,10 @@ class AbstractRunnable(ABC):
         self.pre_run_function: Optional[functools.partial] = pre_run_function
         self.post_run_function: Optional[functools.partial] = post_run_function
         self.do_send_output_to_post_run_function: bool = do_send_output_to_post_run_function
+        self.loginfo_filename= loginfo_filename
+        self.loginfo_line_number= loginfo_line_number
+        self.loginfo_function_name= loginfo_function_name
+        self.loginfo_stack_info= loginfo_stack_info
 
         # Initialize other attributes
         self.do_abort: bool = False
@@ -1080,14 +1254,28 @@ class Function(AbstractRunnable, functools.partial):
         """
 
         # Log details about the function being run
-        LogMessage.Debug(message= "PYTHON> Calling: " + str(self.handle), is_silent= self.is_silent).write(logging_handler= logging_handler, is_indirect= True)
+        LogMessage.Debug(
+            message= "PYTHON> Calling: " + str(self.handle),
+            is_silent= self.is_silent,
+            loginfo_filename= self.loginfo_filename,
+            loginfo_line_number= self.loginfo_line_number,
+            loginfo_function_name= self.loginfo_function_name,
+            loginfo_stack_info= self.loginfo_stack_info,
+        ).write(logging_handler= logging_handler)
 
         self.call_pre_run_function()
         self.output = str(self.__call__()) # Call the function and capture the output
         self.call_post_run_function()
 
         # Log the output
-        LogMessage.Debug(message= "P> Returned: " + self.output, is_silent= self.is_silent).write(logging_handler= logging_handler, is_indirect= True)
+        LogMessage.Debug(
+            message= "P> Returned: " + self.output,
+            is_silent= self.is_silent,
+            loginfo_filename= self.loginfo_filename,
+            loginfo_line_number= self.loginfo_line_number,
+            loginfo_function_name= self.loginfo_function_name,
+            loginfo_stack_info= self.loginfo_stack_info,
+        ).write(logging_handler= logging_handler)
 
         return self.output   
 
@@ -1222,7 +1410,14 @@ class Command(AbstractRunnable):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
-        temp_filepath: Optional[str] = None
+        temp_filepath: Optional[str] = None,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0
     ) -> None:
         """
         Initialize a 'Command' object to run through Python
@@ -1276,12 +1471,22 @@ class Command(AbstractRunnable):
 
         self.temp_filepath: Optional[str] = temp_filepath
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         # Call the parent class constructor
         super().__init__(
             is_silent= is_silent,
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
-            do_send_output_to_post_run_function= do_send_output_to_post_run_function
+            do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info
         )
 
     # CLASS METHODS
@@ -1298,7 +1503,14 @@ class Command(AbstractRunnable):
         is_silent: bool = False,
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
-        do_send_output_to_post_run_function: bool = False
+        do_send_output_to_post_run_function: bool = False,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0
     ) -> Command:
         """
         Initialize a 'Command' object to run *in a shell* and return that Command object
@@ -1328,6 +1540,12 @@ class Command(AbstractRunnable):
             A command instance to run in a shell
         """
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         shell_command: Command = cls(
             command_strings= [],
             timeout= timeout,
@@ -1336,7 +1554,11 @@ class Command(AbstractRunnable):
             is_silent= is_silent,
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
-            do_send_output_to_post_run_function= do_send_output_to_post_run_function
+            do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info
         )
 
         shell_command.command_string = command_string
@@ -1357,7 +1579,14 @@ class Command(AbstractRunnable):
         is_silent: bool = False,
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
-        do_send_output_to_post_run_function: bool = False
+        do_send_output_to_post_run_function: bool = False,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0
     ) -> Command:
         """
         Initialize a 'Command' object to run a script with internal logging, and return the Command object
@@ -1398,6 +1627,12 @@ class Command(AbstractRunnable):
                 script_file_new.write(cls.SHELL_TRAP_STRING + "\n\n") # create a temporary script with a trap command to display both inputs and outputs, with time stamps              
                 script_file_new.write(script_file_old.read()) # copy all lines from the script to a temporary script
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         # Call the Command class constructor
         return cls(
             command_strings= [execution_prefix, temp_filepath] + script_arguments,
@@ -1408,7 +1643,11 @@ class Command(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
-            temp_filepath= temp_filepath
+            temp_filepath= temp_filepath,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info
         )   
 
     @classmethod
@@ -1424,7 +1663,14 @@ class Command(AbstractRunnable):
         is_silent: bool = False,
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
-        do_send_output_to_post_run_function: bool = False
+        do_send_output_to_post_run_function: bool = False,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0
     ) -> Command:
         """
         Initialize a 'Command' object to run a script with internal logging inside a shell, and return the Command object
@@ -1455,7 +1701,13 @@ class Command(AbstractRunnable):
         Returns
         -------
         Nothing
-        """      
+        """  
+
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )   
 
         script_launch_command = cls.Script(
             script_filepath= script_filepath,
@@ -1467,7 +1719,11 @@ class Command(AbstractRunnable):
             is_silent= is_silent,
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
-            do_send_output_to_post_run_function= do_send_output_to_post_run_function
+            do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info
         ) 
 
         if script_launch_command.temp_filepath is not None:
@@ -1597,7 +1853,7 @@ class Command(AbstractRunnable):
 
         return str(self.output)
 
-    def run_log_and_wait(self, logging_handler: Optional[LoggingHandler] = None) -> str:
+    def run_log_and_wait(self, logging_handler: Optional[LoggingHandler] = None, stack_offset= 0) -> str:
         """
         Start running the command, log it live, and wait until completion
 
@@ -1616,9 +1872,23 @@ class Command(AbstractRunnable):
 
         # Log details about the command being run
         if self.on_shell:
-            LogMessage.Debug(message= "SHELL> " + self.command_string, is_silent= self.is_silent).write(logging_handler= logging_handler, is_indirect= True)
+            LogMessage.Debug(
+                message= "SHELL> " + self.command_string,
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
         else:
-            LogMessage.Debug(message= "OS> " + " ".join(self.command_strings), is_silent= self.is_silent).write(logging_handler= logging_handler, is_indirect= True)
+            LogMessage.Debug(
+                message= "OS> " + " ".join(self.command_strings),
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
 
         # Start the execution
         process: subprocess.Popen = self.start()   
@@ -1633,11 +1903,25 @@ class Command(AbstractRunnable):
         leftover_error: str = process.communicate()[1]
         if leftover_output is not None:
             leftover_output = leftover_output.strip()
-            LogMessage.Debug(message= leftover_output).write(logging_handler= logging_handler, is_indirect= True)
+            LogMessage.Debug(
+                message= leftover_output,
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
             self.output = self.output + leftover_output
         if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
             leftover_error = leftover_error.strip()
-            LogMessage.Error(message= leftover_error).write(logging_handler= logging_handler, is_indirect= True)
+            LogMessage.Error(
+                message= leftover_error,
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
             self.output = self.output + leftover_error
             
         self.is_running = False
@@ -1664,10 +1948,29 @@ class Command(AbstractRunnable):
         Nothing
         """
 
+        loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+            stack_info= True,
+            stacklevel= 1
+        )
+
         if self.on_shell:
-            LogMessage.Critical(message= "Aborting the currently running command `" + self.command_string + "`", is_silent= self.is_silent).write(logging_handler= logging_handler, is_indirect= True)
+            LogMessage.Critical(
+                message= "Aborting the currently running command `" + self.command_string + "`",
+                is_silent= self.is_silent,
+                loginfo_filename= loginfo_filename,
+                loginfo_line_number= loginfo_line_number,
+                loginfo_function_name= loginfo_function_name,
+                loginfo_stack_info= loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
         else:
-            LogMessage.Critical(message= "Aborting the currently running command `" + " ".join(self.command_strings) + "`", is_silent= self.is_silent).write(logging_handler=logging_handler, is_indirect= True)
+            LogMessage.Critical(
+                message= "Aborting the currently running command `" + " ".join(self.command_strings) + "`",
+                is_silent= self.is_silent,
+                loginfo_filename= loginfo_filename,
+                loginfo_line_number= loginfo_line_number,
+                loginfo_function_name= loginfo_function_name,
+                loginfo_stack_info= loginfo_stack_info,
+            ).write(logging_handler=logging_handler)
 
         self.do_abort = True
 
@@ -2278,7 +2581,14 @@ class BatchJob(AbstractRunnable):
         logging_handler: Optional[LoggingHandler] = None,
         *, # The arguments following this must all have a name. For example, function(a= 1, text= "hello")
         pre_run_function: Optional[functools.partial] = None,
-        post_run_function: Optional[functools.partial] = None
+        post_run_function: Optional[functools.partial] = None,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0
     ) -> None:
         """
         Initialize a 'BatchJob' instance
@@ -2310,12 +2620,22 @@ class BatchJob(AbstractRunnable):
         self.current_process: Optional[subprocess.Popen] = None
         self.current_task: Optional[Union[BatchJob, Command, Function, LogMessage]] = None
 
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            )
+
         # Call the parent class constructor
         super().__init__(
             is_silent= False,
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
-            do_send_output_to_post_run_function= False
+            do_send_output_to_post_run_function= False,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info
         )
        
     # REGULAR METHODS
@@ -2418,7 +2738,7 @@ class BatchJob(AbstractRunnable):
         LogMessage.Critical(
             message= "An abort request has been received. Terminating the currently running process and exiting...",
             is_silent= False
-        ).write(logging_handler= self.logging_handler, is_indirect= True)
+        ).write(logging_handler= self.logging_handler)
         self.do_abort = True
         self.clear_tasks()
         self._end_process()
