@@ -262,7 +262,7 @@ class LoggingHandler():
             #exception on some versions of IronPython. We trap it here so that
             #IronPython can use logging.
             try:
-                fn, lno, func, sinfo = logging.Logger.findCaller(None, stack_info= stack_info, stacklevel= stacklevel + 1)
+                fn, lno, func, sinfo = logging.Logger.findCaller(None, stack_info= stack_info, stacklevel= stacklevel)
             except ValueError: # pragma: no cover
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"     
         else: # pragma: no cover
@@ -639,7 +639,7 @@ class LogMessage:
         self.args: Tuple[Any, ...] = args
         self.kwargs: Dict[str, Any] = kwargs
         
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -685,7 +685,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -735,7 +735,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -785,7 +785,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -835,7 +835,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -885,7 +885,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -935,7 +935,7 @@ class LogMessage:
             Any named arguments to the Python standard logging methods
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -1135,6 +1135,13 @@ class Function(AbstractRunnable, functools.partial):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        loginfo_filename= None,
+        loginfo_line_number= None,
+        loginfo_function_name= None,
+        loginfo_stack_info= None,
+        loginfo_enable_stackinfo= False,
+        loginfo_stacklevel= 1,
+        loginfo_stackoffset= 0,
         **keyword_arguments
     ) -> None:
         """
@@ -1161,7 +1168,13 @@ class Function(AbstractRunnable, functools.partial):
         # Initialize attributes from arguments
         self.handle: Callable = handle
         self.arguments: Tuple = arguments
-        self.keyword_arguments: Dict[str, Any] = keyword_arguments    
+        self.keyword_arguments: Dict[str, Any] = keyword_arguments   
+
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
+            loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
+                stack_info= loginfo_enable_stackinfo,
+                stacklevel= loginfo_stacklevel + loginfo_stackoffset
+            ) 
             
         # Call the parent class constructor
         AbstractRunnable.__init__(
@@ -1169,7 +1182,11 @@ class Function(AbstractRunnable, functools.partial):
             is_silent= is_silent,
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
-            do_send_output_to_post_run_function= do_send_output_to_post_run_function
+            do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            loginfo_filename= loginfo_filename,
+            loginfo_line_number= loginfo_line_number,
+            loginfo_function_name= loginfo_function_name,
+            loginfo_stack_info= loginfo_stack_info,
         )
 
     # CLASS METHODS
@@ -1252,6 +1269,11 @@ class Function(AbstractRunnable, functools.partial):
         output: Optional[Any]
             The output of the function
         """
+
+        # print("loginfo_filename= ", self.loginfo_filename)
+        # print("loginfo_line_number= ", self.loginfo_line_number)
+        # print("loginfo_function_name= ", self.loginfo_function_name)
+        # print("loginfo_stack_info= ", self.loginfo_stack_info)
 
         # Log details about the function being run
         LogMessage.Debug(
@@ -1471,7 +1493,7 @@ class Command(AbstractRunnable):
 
         self.temp_filepath: Optional[str] = temp_filepath
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -1540,7 +1562,7 @@ class Command(AbstractRunnable):
             A command instance to run in a shell
         """
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -1627,7 +1649,7 @@ class Command(AbstractRunnable):
                 script_file_new.write(cls.SHELL_TRAP_STRING + "\n\n") # create a temporary script with a trap command to display both inputs and outputs, with time stamps              
                 script_file_new.write(script_file_old.read()) # copy all lines from the script to a temporary script
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -1703,7 +1725,7 @@ class Command(AbstractRunnable):
         Nothing
         """  
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
@@ -2620,7 +2642,7 @@ class BatchJob(AbstractRunnable):
         self.current_process: Optional[subprocess.Popen] = None
         self.current_task: Optional[Union[BatchJob, Command, Function, LogMessage]] = None
 
-        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None or loginfo_stack_info is None:
+        if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
                 stack_info= loginfo_enable_stackinfo,
                 stacklevel= loginfo_stacklevel + loginfo_stackoffset
