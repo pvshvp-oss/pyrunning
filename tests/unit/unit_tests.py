@@ -5,7 +5,7 @@ from tests.initializing import InitializeLogging
 
 import logging
  
-class Test_logging_handler(unittest.TestCase):
+class UnitTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -27,3 +27,15 @@ class Test_logging_handler(unittest.TestCase):
 
     def test_silent_command_run(self):
         Command(["ping", "-c", "5", "www.facebook.com"], is_silent= True).run_log_and_wait(self.logging_handler)
+
+    def test_run_log_and_wait(self):
+        print("Starting a command that waits...")
+        Command(["ping", "-c", "5", "www.twitter.com"]).run_log_and_wait(self.logging_handler)
+        print("After the command that waits...")
+        Command(["echo", "Hello"]).run_log_and_wait(self.logging_handler)
+
+    def test_run_and_log(self):
+        print("Starting a command that does not wait...")
+        Command(["ping", "-c", "5", "www.amazon.com"]).run_and_log(self.logging_handler)
+        print("After the command that does not wait...")
+        Command(["echo", "Hello"]).run_log_and_wait(self.logging_handler)
