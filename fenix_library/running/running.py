@@ -10,6 +10,7 @@
 from __future__ import annotations
 from abc import ABC
 import collections
+from concurrent import futures
 from dataclasses import dataclass
 from enum import Enum
 import functools
@@ -1969,6 +1970,91 @@ class Command(AbstractRunnable):
         self.call_post_run_function()
 
         return str(self.output)
+
+    def run_and_log(self, logging_handler: Optional[LoggingHandler] = None, stack_offset= 0) -> futures.Future:
+        """
+        Start running the command, log it live, and wait until completion
+
+        Parameters
+        ----------
+        logging_handler: Optional[LoggingHandler]
+            The LoggingHandler object which stores the logging functions, logging threads, logger information, etc.
+
+        Returns
+        -------
+        output: str
+            The output of the command
+        """
+
+        self.call_pre_run_function()
+
+        # Log details about the command being run
+        if self.on_shell:
+            LogMessage.Debug(
+                message= "SHELL> " + self.command_string,
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
+        else:
+            LogMessage.Debug(
+                message= "OS> " + " ".join(self.command_strings),
+                is_silent= self.is_silent,
+                loginfo_filename= self.loginfo_filename,
+                loginfo_line_number= self.loginfo_line_number,
+                loginfo_function_name= self.loginfo_function_name,
+                loginfo_stack_info= self.loginfo_stack_info,
+            ).write(logging_handler= logging_handler)
+
+        # Start the execution
+        process: subprocess.Popen = self.start()   
+        self.is_running = True
+        self.has_completed = False       
+
+        output_future = logging_handler.log_process(
+            process,
+            is_silent= self.is_silent,
+            loginfo_filename= self.loginfo_filename,
+            loginfo_line_number= self.loginfo_line_number,
+            loginfo_function_name= self.loginfo_function_name,
+            loginfo_stack_info= self.loginfo_stack_info,            
+        )
+
+        def after_run_callback(output_future):
+            self.output = output_future.result()
+            leftover_output: str = process.communicate()[0]
+            leftover_error: str = process.communicate()[1]
+            if leftover_output is not None:
+                leftover_output = leftover_output.strip()
+                LogMessage.Debug(
+                    message= leftover_output,
+                    is_silent= self.is_silent,
+                    loginfo_filename= self.loginfo_filename,
+                    loginfo_line_number= self.loginfo_line_number,
+                    loginfo_function_name= self.loginfo_function_name,
+                    loginfo_stack_info= self.loginfo_stack_info,
+                ).write(logging_handler= logging_handler)
+                self.output = self.output + leftover_output
+            if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
+                leftover_error = leftover_error.strip()
+                LogMessage.Error(
+                    message= leftover_error,
+                    is_silent= self.is_silent,
+                    loginfo_filename= self.loginfo_filename,
+                    loginfo_line_number= self.loginfo_line_number,
+                    loginfo_function_name= self.loginfo_function_name,
+                    loginfo_stack_info= self.loginfo_stack_info,
+                ).write(logging_handler= logging_handler)
+                self.output = self.output + leftover_error                
+            self.is_running = False
+            self.has_completed = True        
+            self.call_post_run_function()
+
+        output_future.add_done_callback(after_run_callback)
+        
+        return output_future
 
     # CLEANUP METHODS
     def abort(

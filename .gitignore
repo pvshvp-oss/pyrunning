@@ -4,7 +4,7 @@ documentation/source/_autosummary
 __pycache__
 *.glade~
 build/*
-dist/*
-*.egg-info/*
+# dist/*
+# *.egg-info/*
 .vscode
 *.log
