@@ -1783,7 +1783,7 @@ class Command(AbstractRunnable):
 
         if self.temp_filepath is not None:
             os.remove(self.temp_filepath) # remove the temporary script
-
+        
     # CLASS METHODS
     # TO CREATE SPECIAL SCRIPTLAUNCHCOMMAND OBJECTS
 
