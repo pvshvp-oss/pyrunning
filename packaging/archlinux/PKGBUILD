@@ -17,7 +17,7 @@ replaces=()
 backup=()
 options=()
 install=
-source=('git+https://gitlab.com/rebornos-team/fenix/libraries/running')
+source=()
 noextract=()
 md5sums=('SKIP')
 
@@ -26,8 +26,10 @@ prepare() {
 }
 
 build() {
+    cd '../../..'
 	rm -rf build dist fenix_library_running.egg-info
-    python setup.py build
+    python setup.py build -f --build-lib './packaging/python/'
+#    cp -f 
 }
 
 check() {
@@ -35,5 +37,6 @@ check() {
 }
 
 package() {
+    cd '../../..'
 	python setup.py install --root="$pkgdir" --optimize=1 --skip-build
 }
