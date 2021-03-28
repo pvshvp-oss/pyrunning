@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b0eaf443f638baf38dfb625dd2de70e31276be6f79883c890c1b0be04875d0ee"
+            "sha256": "9d980fb3735b296015d02eafc1340b005ce9147b47b14c40bd6792e030e8569d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -32,6 +32,14 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0"
         },
+        "build": {
+            "hashes": [
+                "sha256:85123bf327404e68142b1eb2a8298b052e984ad5b12738549688371e6337c73a",
+                "sha256:88bc8ff6cb948247bebd5b3bf6b8b71d10fd93bce848f9d2fd9b28cbdd40ae8b"
+            ],
+            "index": "pypi",
+            "version": "==0.3.1.post1"
+        },
         "certifi": {
             "hashes": [
                 "sha256:1a4995114262bffbc2413b159f2a1a480c969de6e6eb13ee966d470af86af59c",
@@ -58,12 +66,12 @@
         "fenix-library-configuration": {
             "editable": true,
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git",
-            "ref": "d7403e213c7c432bdd023b16c80b58fd74d91366"
+            "ref": "128afaee89f31647284886bd849c20fb0ae10ef8"
         },
         "fenix-library-running": {
             "editable": true,
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/running.git",
-            "ref": "5f9baacb4ec1fe7f9f5ea48699adee31c1e61625"
+            "ref": "cea487f3afac5d08380331ed564f76fbdc39876b"
         },
         "idna": {
             "hashes": [
@@ -154,6 +162,13 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==20.9"
+        },
+        "pep517": {
+            "hashes": [
+                "sha256:ac59f3f6b9726a49e15a649474539442cf76e0697e39df4869d25e68e880931b",
+                "sha256:eba39d201ef937584ad3343df3581069085bacc95454c80188291d5b3ac7a249"
+            ],
+            "version": "==0.10.0"
         },
         "pygments": {
             "hashes": [
@@ -264,6 +279,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==1.1.4"
+        },
+        "toml": {
+            "hashes": [
+                "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
+                "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.10.2"
         },
         "urllib3": {
             "hashes": [

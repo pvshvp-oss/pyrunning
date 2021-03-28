@@ -11,6 +11,8 @@ name = "pypi"
 sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-mermaid = "*"
+setuptools = "*"
+build = "*"
 fenix-library-running = {editable = true, git = "https://gitlab.com/rebornos-team/fenix/libraries/running.git"}
 fenix-library-configuration = {editable = true, git = "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git"}
 

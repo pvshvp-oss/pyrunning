@@ -9,11 +9,11 @@ Prerequisites - What you need to run Fenix Library - Running
 
 1. **Install python dev tools**: 
 
-    * Install the packages :code:`python` and :code:`pip`. In Arch Linux, for example, you would run 
+    * Install the packages :code:`python`, :code:`pip`, :code:`pipenv`, :code:`setuptools`, and :code:`build`. In Arch Linux, for example, you would run 
 
     .. code-block:: bash
         
-        sudo pacman -S --needed python python-pip
+        sudo pacman -S --needed python python-pip python-pipenv python-setuptools python-build
 
 3. **Install other packages**: (*Only required if installing from Git*) Install :code:`git`, :code:`base-devel`, and :code:`linux-headers`. In Arch Linux, for example, you would run 
 
