@@ -31,16 +31,17 @@ class UnitTests(unittest.TestCase):
     def test_special(self):
         LogMessage.Debug("Before ping...").write(self.logging_handler)
         print("Before ping print...")
-        command = Command(["ping", "-c", "5", "www.instagram.com"]).run_and_log(self.logging_handler)
-        LogMessage.Debug("After ping...").write(self.logging_handler)
+        command = Command(["ping", "-c", "5", "www.instagram.com"])
+        command.run_and_log(self.logging_handler)
         print("After ping print...")
+        LogMessage.Debug("After ping...").write(self.logging_handler)
 
         command = Command(["ping", "-c", "5", "www.discourse.com"])
         LogMessage.Debug("Before ping 2...").write(self.logging_handler)
         print("Before ping 2 print...")
         command.run_and_log(self.logging_handler)
-        LogMessage.Debug("After ping 2...").write(self.logging_handler)
         print("After ping 2 print...")
+        LogMessage.Debug("After ping 2...").write(self.logging_handler)
 
     def test_run_log_and_wait(self):
         print("Starting a command that waits...")

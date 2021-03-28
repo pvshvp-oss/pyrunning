@@ -121,22 +121,26 @@ class LoggingHandler():
         """
 
         try:
-            self.process_error_thread_pool_executor.shutdown()
+            self.process_error_thread_pool_executor.shutdown(wait= True)
+            # print("Hello 1")
         except:
             pass
 
         try:
-            self.process_output_thread_pool_executor.shutdown()
+            self.process_output_thread_pool_executor.shutdown(wait= True)
+            # print("Hello 2")
         except:
             pass
 
         try:
-            self.process_coordination_thread_pool_executor.shutdown()
+            self.process_coordination_thread_pool_executor.shutdown(wait= True)
+            # print("Hello 3")
         except:
             pass
 
         try:
-            self.log_thread_pool_executor.shutdown()
+            self.log_thread_pool_executor.shutdown(wait= True)
+            # print("Hello 4")
         except:
             pass
 
@@ -461,6 +465,7 @@ class LoggingHandler():
         """
 
         def __process_output() -> str:
+            # print("__process_output started...")
             total_output: str = ""
             if process.stdout is not None:
                 for output_line in iter(process.stdout):
@@ -471,7 +476,7 @@ class LoggingHandler():
                         message= output_line,
                         is_silent= is_silent
                     )
-                    future = self.log_thread_pool_executor.submit(
+                    _ = self.log_thread_pool_executor.submit(
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
@@ -483,10 +488,11 @@ class LoggingHandler():
                         loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
-                    self.process_futures.append(future)
+                    # self.process_futures.append(future)
             return total_output
 
         def __process_error() -> str:
+            # print("__process_error started...")
             total_output: str = ""
             if process.stderr is not None:
                 for error_line in iter(process.stderr):
@@ -514,7 +520,7 @@ class LoggingHandler():
                             is_silent= is_silent
                         )
                     total_output = total_output + error_line  
-                    future = self.log_thread_pool_executor.submit(
+                    _ = self.log_thread_pool_executor.submit(
                         self._log_message,
                         log_message.logging_level.value,
                         log_message.message,
@@ -526,18 +532,56 @@ class LoggingHandler():
                         loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
-                    self.process_futures.append(future)
+                    # self.process_futures.append(future)
             return total_output
 
         def __coordinate() -> str:
+            # print("__coordinate started...")
             total_output: str = ""
-            assert(total_output is not None)
             for future in self.process_futures:
                 total_output = total_output + str(future.result())
+            leftover_output: str = process.communicate()[0]
+            leftover_error: str = process.communicate()[1]
+            if leftover_output is not None:
+                leftover_output = leftover_output.strip()
+                log_message = LogMessage.Debug(
+                    message= leftover_output,
+                    is_silent= is_silent,
+                    loginfo_filename= loginfo_filename,
+                    loginfo_line_number= loginfo_line_number,
+                    loginfo_function_name= loginfo_function_name,
+                    loginfo_stack_info= loginfo_stack_info,
+                )
+                total_output = total_output + leftover_output
+            if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
+                leftover_error = leftover_error.strip()
+                log_message = LogMessage.Error(
+                    message= leftover_error,
+                    is_silent= is_silent,
+                    loginfo_filename= loginfo_filename,
+                    loginfo_line_number= loginfo_line_number,
+                    loginfo_function_name= loginfo_function_name,
+                    loginfo_stack_info= loginfo_stack_info,
+                )
+                total_output = total_output + leftover_error
+            _ = self.log_thread_pool_executor.submit(
+                self._log_message,
+                log_message.logging_level.value,
+                log_message.message,
+                *args,
+                is_silent= is_silent,
+                loginfo_filename= loginfo_filename,
+                loginfo_line_number= loginfo_line_number,
+                loginfo_function_name= loginfo_function_name,
+                loginfo_stack_info= loginfo_stack_info,
+                **kwargs
+            )
             return total_output
 
-        _ = self.process_output_thread_pool_executor.submit(__process_output)
-        _ = self.process_error_thread_pool_executor.submit(__process_error)
+        process_output_future = self.process_output_thread_pool_executor.submit(__process_output)
+        process_error_future = self.process_error_thread_pool_executor.submit(__process_error)
+        self.process_futures.append(process_output_future)
+        self.process_futures.append(process_error_future)
         output_future = self.process_coordination_thread_pool_executor.submit(__coordinate)
 
         return output_future
@@ -1940,30 +1984,30 @@ class Command(AbstractRunnable):
         process.wait()
         self.output = output_future.result()
 
-        leftover_output: str = process.communicate()[0]
-        leftover_error: str = process.communicate()[1]
-        if leftover_output is not None:
-            leftover_output = leftover_output.strip()
-            LogMessage.Debug(
-                message= leftover_output,
-                is_silent= self.is_silent,
-                loginfo_filename= self.loginfo_filename,
-                loginfo_line_number= self.loginfo_line_number,
-                loginfo_function_name= self.loginfo_function_name,
-                loginfo_stack_info= self.loginfo_stack_info,
-            ).write(logging_handler= logging_handler)
-            self.output = self.output + leftover_output
-        if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
-            leftover_error = leftover_error.strip()
-            LogMessage.Error(
-                message= leftover_error,
-                is_silent= self.is_silent,
-                loginfo_filename= self.loginfo_filename,
-                loginfo_line_number= self.loginfo_line_number,
-                loginfo_function_name= self.loginfo_function_name,
-                loginfo_stack_info= self.loginfo_stack_info,
-            ).write(logging_handler= logging_handler)
-            self.output = self.output + leftover_error
+        # leftover_output: str = process.communicate()[0]
+        # leftover_error: str = process.communicate()[1]
+        # if leftover_output is not None:
+        #     leftover_output = leftover_output.strip()
+        #     LogMessage.Debug(
+        #         message= leftover_output,
+        #         is_silent= self.is_silent,
+        #         loginfo_filename= self.loginfo_filename,
+        #         loginfo_line_number= self.loginfo_line_number,
+        #         loginfo_function_name= self.loginfo_function_name,
+        #         loginfo_stack_info= self.loginfo_stack_info,
+        #     ).write(logging_handler= logging_handler)
+        #     self.output = self.output + leftover_output
+        # if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
+        #     leftover_error = leftover_error.strip()
+        #     LogMessage.Error(
+        #         message= leftover_error,
+        #         is_silent= self.is_silent,
+        #         loginfo_filename= self.loginfo_filename,
+        #         loginfo_line_number= self.loginfo_line_number,
+        #         loginfo_function_name= self.loginfo_function_name,
+        #         loginfo_stack_info= self.loginfo_stack_info,
+        #     ).write(logging_handler= logging_handler)
+        #     self.output = self.output + leftover_error
             
         self.is_running = False
         self.has_completed = True        
@@ -2022,37 +2066,48 @@ class Command(AbstractRunnable):
             loginfo_stack_info= self.loginfo_stack_info,            
         )
 
-        def after_run_callback(output_future):
-            self.output = output_future.result()
-            leftover_output: str = process.communicate()[0]
-            leftover_error: str = process.communicate()[1]
-            if leftover_output is not None:
-                leftover_output = leftover_output.strip()
-                LogMessage.Debug(
-                    message= leftover_output,
-                    is_silent= self.is_silent,
-                    loginfo_filename= self.loginfo_filename,
-                    loginfo_line_number= self.loginfo_line_number,
-                    loginfo_function_name= self.loginfo_function_name,
-                    loginfo_stack_info= self.loginfo_stack_info,
-                ).write(logging_handler= logging_handler)
-                self.output = self.output + leftover_output
-            if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
-                leftover_error = leftover_error.strip()
-                LogMessage.Error(
-                    message= leftover_error,
-                    is_silent= self.is_silent,
-                    loginfo_filename= self.loginfo_filename,
-                    loginfo_line_number= self.loginfo_line_number,
-                    loginfo_function_name= self.loginfo_function_name,
-                    loginfo_stack_info= self.loginfo_stack_info,
-                ).write(logging_handler= logging_handler)
-                self.output = self.output + leftover_error                
+        def after_run_callback(output_future):            
+        #     self.output = output_future.result()
+        #     leftover_output: str = process.communicate()[0]
+        #     leftover_error: str = process.communicate()[1]
+        #     if leftover_output is not None:
+        #         leftover_output = leftover_output.strip()
+        #         LogMessage.Debug(
+        #             message= leftover_output,
+        #             is_silent= self.is_silent,
+        #             loginfo_filename= self.loginfo_filename,
+        #             loginfo_line_number= self.loginfo_line_number,
+        #             loginfo_function_name= self.loginfo_function_name,
+        #             loginfo_stack_info= self.loginfo_stack_info,
+        #         ).write(logging_handler= logging_handler)
+        #         self.output = self.output + leftover_output
+        #     if (leftover_error is not None) and (not leftover_error.isspace()) and (len(leftover_error) != 0):
+        #         leftover_error = leftover_error.strip()
+        #         LogMessage.Error(
+        #             message= leftover_error,
+        #             is_silent= self.is_silent,
+        #             loginfo_filename= self.loginfo_filename,
+        #             loginfo_line_number= self.loginfo_line_number,
+        #             loginfo_function_name= self.loginfo_function_name,
+        #             loginfo_stack_info= self.loginfo_stack_info,
+        #         ).write(logging_handler= logging_handler)
+        #         self.output = self.output + leftover_error                
             self.is_running = False
             self.has_completed = True        
             self.call_post_run_function()
 
+        # print("Check 1 to see if blocking...")
+
         output_future.add_done_callback(after_run_callback)
+
+        # print("Check 1 done...")
+
+        # logging_handler.__del__()
+
+        # import time
+        # time.sleep(15)
+
+        # print(output_future.result())
         
         return output_future
 
