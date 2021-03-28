@@ -122,25 +122,21 @@ class LoggingHandler():
 
         try:
             self.process_error_thread_pool_executor.shutdown(wait= True)
-            # print("Hello 1")
         except:
             pass
 
         try:
             self.process_output_thread_pool_executor.shutdown(wait= True)
-            # print("Hello 2")
         except:
             pass
 
         try:
             self.process_coordination_thread_pool_executor.shutdown(wait= True)
-            # print("Hello 3")
         except:
             pass
 
         try:
             self.log_thread_pool_executor.shutdown(wait= True)
-            # print("Hello 4")
         except:
             pass
 
@@ -157,13 +153,6 @@ class LoggingHandler():
         loginfo_stack_info= None,
         **kwargs
     ) -> None:
-        # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + stack_offset)
-        # print("#############")
-        # print("Caller info")
-        # print("#############")
-        # print(self.find_caller(stack_info, stacklevel))
-        # print("stack_info: ", stack_info)
-        # print("#############")
         self._log_message(
             logging_level,
             message,
@@ -187,13 +176,6 @@ class LoggingHandler():
         loginfo_stack_info= None,
         **kwargs
     ) -> Future:
-        # loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = self.find_caller(stack_info, stacklevel + 1)
-        # print("#############")
-        # print("Caller info")
-        # print("#############")
-        # print(self.find_caller(stack_info, stacklevel))
-        # print("stack_info: ", stack_info)
-        # print("#############")
         future = self._log_process(
             process,
             *args,
@@ -217,20 +199,6 @@ class LoggingHandler():
         loginfo_stack_info= None,
         **kwargs
         ):
-
-        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        # print("standard_logging_function function")
-        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        # print("logging_level: ", level)
-        # print("message: ", msg)
-        # print("loginfo_filename: ", loginfo_filename)
-        # print("loginfo_line_number: ", loginfo_line_number)
-        # print("loginfo_function_name: ", loginfo_function_name)
-        # print("loginfo_stack_info: ", loginfo_stack_info)
-        # print("args: ", args)
-        # print("kwargs: ", kwargs)
-        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-
         self._log(
             level,
             msg,
@@ -322,20 +290,6 @@ class LoggingHandler():
         # else: # pragma: no cover
         #     fn, lno, func = "(unknown file)", 0, "(unknown function)"
 
-        # print("***********************")
-        # print("* Name: ", self.logger.name)
-        # print("* Level: ", level)
-        # print("* Filename: ", fn)
-        # print("* Line number: ", lno)
-        # print("* Message: ", msg)
-        # print("* Args: ", args)
-        # print("* Kwargs: ", kwargs)
-        # print("* Exception information: ", exc_info)
-        # print("* Function: ", func)
-        # print("* Extra: ", extra)
-        # print("* Stack Info: ", sinfo)
-        # print("***********************")
-
         if self.logger is None:
             return
         if exc_info:
@@ -381,16 +335,6 @@ class LoggingHandler():
         Nothing
         """
 
-        # print("######################")
-        # print("_log_message function")
-        # print("######################")
-        # print("logging_level: ", logging_level)
-        # print("message: ", message)
-        # print("args: ", args)
-        # print("kwargs: ", kwargs)
-        # print("logging_functions: ", len(self.logging_functions))
-        # print("######################")
-
         if is_silent:
             return
 
@@ -429,15 +373,6 @@ class LoggingHandler():
             **kwargs
         )  
 
-        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        # print("In the _log_message method")
-        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        # print("logging_level: ", logging_level)
-        # print("message: ", message)
-        # print("args: ", args)
-        # print("kwargs: ", kwargs)
-        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-
     def _log_process(
         self,
         process: subprocess.Popen,
@@ -465,7 +400,6 @@ class LoggingHandler():
         """
 
         def __process_output() -> str:
-            # print("__process_output started...")
             total_output: str = ""
             if process.stdout is not None:
                 for output_line in iter(process.stdout):
@@ -488,11 +422,9 @@ class LoggingHandler():
                         loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
-                    # self.process_futures.append(future)
             return total_output
 
         def __process_error() -> str:
-            # print("__process_error started...")
             total_output: str = ""
             if process.stderr is not None:
                 for error_line in iter(process.stderr):
@@ -532,11 +464,9 @@ class LoggingHandler():
                         loginfo_stack_info= loginfo_stack_info,
                         **kwargs
                     )
-                    # self.process_futures.append(future)
             return total_output
 
         def __coordinate() -> str:
-            # print("__coordinate started...")
             total_output: str = ""
             for future in self.process_futures:
                 total_output = total_output + str(future.result())
@@ -1326,11 +1256,6 @@ class Function(AbstractRunnable, functools.partial):
             The output of the function
         """
 
-        # print("loginfo_filename= ", self.loginfo_filename)
-        # print("loginfo_line_number= ", self.loginfo_line_number)
-        # print("loginfo_function_name= ", self.loginfo_function_name)
-        # print("loginfo_stack_info= ", self.loginfo_stack_info)
-
         # Log details about the function being run
         LogMessage.Debug(
             message= "PYTHON> Calling: " + str(self.handle),
@@ -2096,19 +2021,12 @@ class Command(AbstractRunnable):
             self.has_completed = True        
             self.call_post_run_function()
 
-        # print("Check 1 to see if blocking...")
-
         output_future.add_done_callback(after_run_callback)
 
-        # print("Check 1 done...")
-
-        # logging_handler.__del__()
-
-        # import time
-        # time.sleep(15)
-
-        # print(output_future.result())
-        
+        # Sometimes the command does not complete if the program exits too fast
+        # Adding a sleep or future.result() here forces the logging to complete
+        # The preferred way is to keep the program running until the logging is done, since this is supposed to be non-blocking
+       
         return output_future
 
     # CLEANUP METHODS
