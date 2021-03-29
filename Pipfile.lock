@@ -66,12 +66,12 @@
         "fenix-library-configuration": {
             "editable": true,
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/configuration.git",
-            "ref": "128afaee89f31647284886bd849c20fb0ae10ef8"
+            "ref": "f74060f7249a3cadce2d702cf878f24087c57755"
         },
         "fenix-library-running": {
             "editable": true,
             "git": "https://gitlab.com/rebornos-team/fenix/libraries/running.git",
-            "ref": "cea487f3afac5d08380331ed564f76fbdc39876b"
+            "ref": "9f9c40c4e297b0564f9a310dd35bb3772986545e"
         },
         "idna": {
             "hashes": [
