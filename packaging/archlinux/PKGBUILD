@@ -1,5 +1,5 @@
 # Maintainer: Shivanand Pattanshetti <shivanandvp@rebornos.org>
-pkgname='python-fenix_library-running-git'
+pkgname='python-fenix_library-running'
 pkgver=0.0.7
 pkgrel=1
 pkgdesc='The fenix_library-running package contains the tools required to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or queued for later execution'

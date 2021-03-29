@@ -1,11 +1,11 @@
 format = 1
-pkgname = python-fenix_library-running-git
-pkgbase = python-fenix_library-running-git
+pkgname = python-fenix_library-running
+pkgbase = python-fenix_library-running
 pkgver = 0.0.7-1
 pkgarch = any
-pkgbuild_sha256sum = 0eaa4734d935642eaa164a64579b863c24fa9d6ef86982b635403652dde4eace
+pkgbuild_sha256sum = 747ed5a0456f29962acc9d27f030c64829ab505646d5eaf526f6911a2de40ffc
 packager = Unknown Packager
-builddate = 1616966885
+builddate = 1617002784
 builddir = /run/media/shivanandvp/DATA/Development/RebornOS/fenix-libraries/fenix_library-running/packaging/archlinux
 buildenv = !distcc
 buildenv = color
