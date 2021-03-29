@@ -22,7 +22,7 @@ noextract=()
 md5sums=('SKIP')
 
 build() {
-    cd '..' && rm -rf pkg/* src/* *.pkg.tar
+    cd '..' && rm -rf pkg/* src/* *.pkg.tar*
     cd '../..' && python setup.py build
 }
 
