@@ -21,12 +21,9 @@ source=()
 noextract=()
 md5sums=('SKIP')
 
-prepare() {
-    cd '..' && rm -rf "pkg/*" "src/*" "*.pkg.tar"
-}
-
 build() {
-    cd '../../..' && python setup.py build
+    cd '..' && rm -rf pkg/* src/* *.pkg.tar
+    cd '../..' && python setup.py build
 }
 
 check() {
@@ -34,5 +31,5 @@ check() {
 }
 
 package() {
-    cd '../../..' && python setup.py install --root="$pkgdir" --optimize=1 --skip-build && rm -rf build fenix_library_running.egg-info
+    cd '../../..' && python setup.py install --root="$pkgdir" --optimize=1 --skip-build && rm -rf build *.egg-info
 }
