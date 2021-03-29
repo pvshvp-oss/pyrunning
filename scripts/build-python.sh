@@ -1,7 +1,7 @@
 #! /usr/bin/env sh
 
-rm -rf build dist fenix_library*.egg-info
-rm -rf packaging/python/build packaging/python/dist packaging/python/fenix_library*.egg-info
+rm -rf build dist *.egg-info
+rm -rf packaging/python/build packaging/python/dist packaging/python/*.egg-info
 python -m build
 
 mv -f build packaging/python/
