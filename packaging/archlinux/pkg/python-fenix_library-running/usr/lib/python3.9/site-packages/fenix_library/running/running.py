@@ -1629,6 +1629,7 @@ class Command(AbstractRunnable):
             with open(script_filepath, "r") as script_file_old:
                 script_file_new.write(cls.SHELL_TRAP_STRING + "\n\n") # create a temporary script with a trap command to display both inputs and outputs, with time stamps              
                 script_file_new.write(script_file_old.read()) # copy all lines from the script to a temporary script
+        os.chmod(temp_filepath, 0o777)
 
         if loginfo_filename is None or loginfo_line_number is None or loginfo_function_name is None:
             loginfo_filename, loginfo_line_number, loginfo_function_name, loginfo_stack_info = LoggingHandler.find_caller(
