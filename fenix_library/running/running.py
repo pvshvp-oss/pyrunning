@@ -104,6 +104,8 @@ class LoggingHandler():
         self.process_coordination_thread_pool_executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers= 1, thread_name_prefix= process_thread_name_prefix)
         self.log_thread_pool_executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers= 1, thread_name_prefix= log_thread_name_prefix)
         self.process_futures: List[Future] = []
+        self.do_abort = False 
+        self.wait = True
 
     # DESTRUCTOR
 
@@ -121,26 +123,50 @@ class LoggingHandler():
         """
 
         try:
-            self.process_error_thread_pool_executor.shutdown(wait= True)
+            self.process_error_thread_pool_executor.shutdown(wait= self.wait)
         except:
             pass
 
         try:
-            self.process_output_thread_pool_executor.shutdown(wait= True)
+            self.process_output_thread_pool_executor.shutdown(wait= self.wait)
         except:
             pass
 
         try:
-            self.process_coordination_thread_pool_executor.shutdown(wait= True)
+            self.process_coordination_thread_pool_executor.shutdown(wait= self.wait)
         except:
             pass
 
         try:
-            self.log_thread_pool_executor.shutdown(wait= True)
+            self.log_thread_pool_executor.shutdown(wait= self.wait)
         except:
             pass
 
     # REGULAR METHODS  
+    def abort(self, wait=True):
+        self.wait = wait
+        if not wait:
+            self.do_abort = True
+        try:
+            self.process_output_thread_pool_executor.shutdown(wait=wait)
+        except Exception:
+            pass
+
+        try:
+            self.process_error_thread_pool_executor.shutdown(wait=wait)
+        except Exception:
+            pass
+
+        try:    
+            self.process_coordination_thread_pool_executor.shutdown(wait=wait)
+        except Exception:
+            pass
+
+        try:
+            self.log_thread_pool_executor.shutdown(wait=wait)
+        except Exception:
+            pass
+
     def log_message(
         self,
         logging_level: int = LoggingLevel.DEBUG.value,
@@ -402,6 +428,8 @@ class LoggingHandler():
         def __process_output() -> str:
             total_output: str = ""
             if process.stdout is not None:
+                if self.do_abort:
+                    return None
                 for output_line in iter(process.stdout):
                     output_line = output_line.strip()
                     if not output_line.startswith("S>"):
@@ -428,6 +456,8 @@ class LoggingHandler():
             total_output: str = ""
             if process.stderr is not None:
                 for error_line in iter(process.stderr):
+                    if self.do_abort:
+                        return None
                     error_line = error_line.strip()
                     if "critical" in error_line.lower() or "fatal" in error_line.lower():  # If either of the words "critical" or "fatal" is found in stderr
                         log_message: LogMessage = LogMessage.Critical(
@@ -451,6 +481,8 @@ class LoggingHandler():
                             message= error_line,
                             is_silent= is_silent
                         )
+                    if self.do_abort:
+                        return None
                     total_output = total_output + error_line  
                     _ = self.log_thread_pool_executor.submit(
                         self._log_message,
@@ -469,8 +501,14 @@ class LoggingHandler():
         def __coordinate() -> str:
             total_output: str = ""
             for future in self.process_futures:
+                if self.do_abort:
+                    return None
                 total_output = total_output + str(future.result())
+            if self.do_abort:
+                return None
             leftover_output: str = process.communicate()[0]
+            if self.do_abort:
+                return None
             leftover_error: str = process.communicate()[1]
             if leftover_output is not None:
                 leftover_output = leftover_output.strip()
