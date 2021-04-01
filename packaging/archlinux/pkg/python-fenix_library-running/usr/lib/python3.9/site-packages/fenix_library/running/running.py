@@ -123,22 +123,22 @@ class LoggingHandler():
         """
 
         try:
-            self.process_error_thread_pool_executor.shutdown(wait= self.wait)
+            self.process_error_thread_pool_executor.shutdown(wait= self.wait, cancel_futures= not self.wait)
         except:
             pass
 
         try:
-            self.process_output_thread_pool_executor.shutdown(wait= self.wait)
+            self.process_output_thread_pool_executor.shutdown(wait= self.wait, cancel_futures= not self.wait)
         except:
             pass
 
         try:
-            self.process_coordination_thread_pool_executor.shutdown(wait= self.wait)
+            self.process_coordination_thread_pool_executor.shutdown(wait= self.wait, cancel_futures= not self.wait)
         except:
             pass
 
         try:
-            self.log_thread_pool_executor.shutdown(wait= self.wait)
+            self.log_thread_pool_executor.shutdown(wait= self.wait, cancel_futures= not self.wait)
         except:
             pass
 
@@ -148,22 +148,22 @@ class LoggingHandler():
         if not wait:
             self.do_abort = True
         try:
-            self.process_output_thread_pool_executor.shutdown(wait=wait)
+            self.process_output_thread_pool_executor.shutdown(wait=wait, cancel_futures= not wait)
         except Exception:
             pass
 
         try:
-            self.process_error_thread_pool_executor.shutdown(wait=wait)
+            self.process_error_thread_pool_executor.shutdown(wait=wait, cancel_futures= not wait)
         except Exception:
             pass
 
         try:    
-            self.process_coordination_thread_pool_executor.shutdown(wait=wait)
+            self.process_coordination_thread_pool_executor.shutdown(wait=wait, cancel_futures= not wait)
         except Exception:
             pass
 
         try:
-            self.log_thread_pool_executor.shutdown(wait=wait)
+            self.log_thread_pool_executor.shutdown(wait=wait, cancel_futures= not wait)
         except Exception:
             pass
 
