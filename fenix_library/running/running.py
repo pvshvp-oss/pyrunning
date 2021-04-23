@@ -1075,6 +1075,7 @@ class AbstractRunnable(ABC):
         self.is_running: bool = False
         self.has_completed: bool = False
         self.output: Optional[Any] = None
+        self.return_code: Optional[int] = None
 
     # REGULAR METHODS
 
@@ -1889,6 +1890,7 @@ class Command(AbstractRunnable):
         self.is_running = False
         self.has_completed = True
         self.output, error = process.communicate()
+        self.return_code = process.returncode
         if (not error.isspace()) and len(error) != 0:
             self.output = self.output + error
         self.call_post_run_function()
@@ -1947,6 +1949,7 @@ class Command(AbstractRunnable):
         )
         process.wait()
         self.output = output_future.result()
+        self.return_code = process.returncode
 
         # leftover_output: str = process.communicate()[0]
         # leftover_error: str = process.communicate()[1]
@@ -2057,7 +2060,8 @@ class Command(AbstractRunnable):
         #         ).write(logging_handler= logging_handler)
         #         self.output = self.output + leftover_error                
             self.is_running = False
-            self.has_completed = True        
+            self.has_completed = True     
+            self.return_code = process.returncode   
             self.call_post_run_function()
 
         output_future.add_done_callback(after_run_callback)
