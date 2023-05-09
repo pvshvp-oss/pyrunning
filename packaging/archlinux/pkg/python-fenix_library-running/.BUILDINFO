@@ -1,11 +1,11 @@
 format = 2
 pkgname = python-fenix_library-running
 pkgbase = python-fenix_library-running
-pkgver = 0.0.11-1
+pkgver = 0.0.12-1
 pkgarch = any
-pkgbuild_sha256sum = aa71cc81312064a22142ce5013ce4420742ab75d53abe22dd5b48afb35ffb0ba
+pkgbuild_sha256sum = 673dacb76f9de1b67d84568589ccc02326ccefd3a5eb580d66fe5daee42ea41a
 packager = Unknown Packager
-builddate = 1683618657
+builddate = 1683619001
 builddir = /data/Development/RebornOS/fenix_library-running/packaging/archlinux
 startdir = /data/Development/RebornOS/fenix_library-running/packaging/archlinux
 buildtool = makepkg

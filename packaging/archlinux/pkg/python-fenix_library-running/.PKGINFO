@@ -2,10 +2,10 @@
 # using fakeroot version 1.31
 pkgname = python-fenix_library-running
 pkgbase = python-fenix_library-running
-pkgver = 0.0.11-1
+pkgver = 0.0.12-1
 pkgdesc = The fenix_library-running package contains the tools required to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or queued for later execution
 url = https://gitlab.com/rebornos-team/fenix/libraries/running
-builddate = 1683618657
+builddate = 1683619001
 packager = Unknown Packager
 size = 300066
 arch = any

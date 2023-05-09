@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="fenix_library-running",
-    version="0.0.11",
+    version="0.0.12",
     author="shivanandvp",
     author_email="shivanandvp.oss@gmail.com",
     description="A library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or queued for later execution",
