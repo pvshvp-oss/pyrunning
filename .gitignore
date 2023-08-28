@@ -1,14 +1,20 @@
-documentation/build/*
-documentation/source/_autosummary
+# Cache
 *.pyc
 __pycache__
+
+# Build
 build/*
 dist/*
 *.egg-info/*
 *.egg-info
-.vscode
+*.whl
+
+# Build - Docs
+documentation/build/*
+documentation/source/_autosummary
+
+# Logs
 *.log
-.gitlab-ci.yml
 
 # Packaging
 packaging/**/pkg
@@ -16,3 +22,6 @@ packaging/**/src
 packaging/**/*.tar*
 packaging/**/python-pyrunning-git/python-pyrunning
 packaging/**/python-pyrunning/python-pyrunning*
+
+# VSCode
+.vscode

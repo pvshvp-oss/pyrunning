@@ -3,6 +3,8 @@
 
 ![GitHub](https://img.shields.io/github/license/shivanandvp/pyrunning)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/shivanandvp/pyrunning)
+[![PyPI](https://img.shields.io/pypi/:period/pyrunning
+)](https://pypi.org/project/pyrunning/)
 [![Release](https://github.com/shivanandvp/pyrunning/actions/workflows/release.yml/badge.svg)](https://github.com/shivanandvp/pyrunning/actions/workflows/release.yml)
 [![Pre-Release (Git)](https://github.com/shivanandvp/pyrunning/actions/workflows/pre_release.yml/badge.svg)](https://github.com/shivanandvp/pyrunning/actions/workflows/pre_release.yml)
 
@@ -12,7 +14,7 @@ A python library to run and live-log *OS commands*, *functions*, *scripts*, and 
 
 **Warning**: This package is still in the Beta stage. It is not ready for production use. Please do not use for any critical software
 
-## [PLEASE CLICK HERE](https://github.com/shivanandvp/pyrunning/index.html) for the full documentation
+<!-- ## [PLEASE CLICK HERE](https://github.com/shivanandvp/pyrunning/index.html) for the full documentation -->
 
 ## Cloning
 
