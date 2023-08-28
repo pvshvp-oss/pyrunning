@@ -3,7 +3,7 @@
 
 ![GitHub](https://img.shields.io/github/license/shivanandvp/pyrunning)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/shivanandvp/pyrunning)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrunning?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyrunning%2F)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrunning?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyrunning%2F)](https://pypi.org/project/pyrunning/)
 [![Release](https://github.com/shivanandvp/pyrunning/actions/workflows/release.yml/badge.svg)](https://github.com/shivanandvp/pyrunning/actions/workflows/release.yml)
 [![Pre-Release (Git)](https://github.com/shivanandvp/pyrunning/actions/workflows/pre_release.yml/badge.svg)](https://github.com/shivanandvp/pyrunning/actions/workflows/pre_release.yml)
 
