@@ -14,8 +14,8 @@ license=('MPL-2.0')
 # -------- # 
 # Specific #
 # -------- #
-PKGVER_STUB=0.0.12
-pkgver=0.0.12.2023_08_28T07_09_31_05_00
+PKGVER_STUB=0.0.13
+pkgver=0.0.13.2023_08_28T07_09_31_05_00
 pkgrel=1
 pkgname="$PACKAGE_NAME_STUB-local"
 conflicts=("$PACKAGE_NAME_STUB" "$PACKAGE_NAME_STUB-git")
