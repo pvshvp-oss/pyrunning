@@ -35,7 +35,7 @@ git clone git@github.com:shivanandvp/pyrunning.git
 
 ## Packaging
 
-Change to the project directory (`cd cpyrunning`) and run any of the below scripts:
+Change to the project directory (`cd pyrunning`) and run any of the below scripts:
 - `sh packaging/setup.sh <MODE>`: Builds and installs a package
 - `sh packaging/build-package.sh <MODE>`: Just builds a package without installing it locally
 - `sh packaging/install-package.sh <MODE>`: Just installs a package locally, except if no built package is detected, a package is built.
