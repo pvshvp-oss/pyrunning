@@ -21,9 +21,12 @@ jobs:
       - name: 🛠 Build Package
         id: build_package_step        
         run: |
+          sudo pacman -S --needed --noconfirm tree
           chown -R rebornos packaging
           chmod -R +x packaging
           sudo -u rebornos sh -c "packaging/build_package.sh git --noconfirm"
+          ls -ltr packaging/python-pyrunning-git/
+          tree -L 2 packaging/python-pyrunning-git/
       - name: ⬆ Upload Package Artifact
         id: upload_package_step
         uses: actions/upload-artifact@v3
@@ -60,6 +63,7 @@ jobs:
         id: generate_checksum_step
         run: |
           cd ${{ steps.download_package_step.outputs.download-path }}
+          ls -ltr ${{ steps.download_package_step.outputs.download-path }}
           find . -type f -exec sh -c 'sha256sum "$0" > "$0.sha256sum"' {} \;
       - name: 🎊 Create Pre-Release
         id: create_release_step
