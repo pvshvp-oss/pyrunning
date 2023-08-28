@@ -26,7 +26,7 @@ prepare() {
     export PROJECT_DIRECTORY="$(dirname -- "$(dirname -- "$(dirname -- "$(pwd)")")")"
 }
 pkgver() {
-    echo "$PKGVER_STUB.$(date -Is | tr :- _)"
+    echo "$PKGVER_STUB.$(date -Is | tr ':-+;' '_')"
 }
 # -------- #
 
