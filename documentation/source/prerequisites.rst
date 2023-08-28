@@ -1,9 +1,9 @@
 .. _prerequisites:
 
-Prerequisites - What you need to run Fenix Library - Running
-**************************************************************
+Prerequisites - What you need to run pyrunning
+**********************************************
 
-**Note**: Currently, the **Fenix Library** only supports **Arch Linux** and its derivatives (like *RebornOS*, *EndeavourOS*, *Manjaro*, etc.).
+**Note**: Currently, **pyrunning** only supports **Arch Linux** and its derivatives (like *RebornOS*, *EndeavourOS*, *Manjaro*, etc.).
 
 **Warning**: Please skip this section if you have already run the setup script successfully.
 

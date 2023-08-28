@@ -1,36 +1,27 @@
-# Fenix Library
-# Please refer to the file `LICENSE` in the main directory for license information. 
-# For a high level documentation, please visit https://gitlab.com/rebornos-team/fenix/libraries
+# region: IMPORTS
 
-# AUTHORS
-# 1. Shivanand Pattanshetti (shivanand.pattanshetti@gmail.com)
-# 2. 
-
-# IMPORTS
 from __future__ import annotations
-from abc import ABC
+
 import collections
-from concurrent import futures
-from dataclasses import dataclass
-from enum import Enum
 import functools
+import logging
 import os
 import pathlib
 import signal
 import subprocess
-from subprocess import Popen
+import sys
 import textwrap
 import threading
-from typing import Any, Deque, Dict, List, Optional, Tuple, Union, IO, Callable
 import typing
-import logging
-from concurrent.futures import ThreadPoolExecutor
-import itertools
-from queue import Queue
-from concurrent.futures import Future
-import sys
+from abc import ABC
+from concurrent import futures
+from concurrent.futures import Future, ThreadPoolExecutor
+from enum import Enum
+from typing import IO, Any, Callable, Deque, Dict, List, Optional, Tuple, Union
 
-# PRIVATE CLASSES
+# endregion: IMPORTS
+
+# region: PRIVATE CLASSES
 
 class LoggingLevel(Enum):
     """
@@ -45,7 +36,9 @@ class LoggingLevel(Enum):
     DEBUG = 10
     NOTSET = 0
 
-# PUBLIC CLASSES
+# endregion: PRIVATE CLASSES
+
+# region: PUBLIC CLASSES
 
 class LoggingHandler():
     """
@@ -2972,3 +2965,5 @@ class BatchJob(AbstractRunnable):
             self.current_task.is_running = False        
         else: # If the current task is not a command
             return # Do nothing
+
+# endregion: PUBLIC CLASSES

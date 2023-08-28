@@ -1,6 +1,6 @@
 import unittest
 
-from fenix_library.running import LoggingHandler, LogMessage, Function, Command
+from pyrunning import LoggingHandler, LogMessage, Function, Command
 from tests.initializing import InitializeLogging
 
 import logging
@@ -10,7 +10,7 @@ class UnitTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         InitializeLogging.setup_logger()
-        cls.logger = logging.getLogger("fenix_library-running_test." + "Test_log_message")
+        cls.logger = logging.getLogger("pyrunning_test." + "Test_log_message")
         cls.logging_handler = LoggingHandler(cls.logger)
 
     def test_debug_message(self):

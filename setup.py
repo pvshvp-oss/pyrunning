@@ -4,24 +4,24 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="fenix_library-running",
+    name="pyrunning",
     version="0.0.12",
     author="shivanandvp",
     author_email="shivanandvp.oss@gmail.com",
-    description="A library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or queued for later execution",
+    description="A pyhon library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/rebornos-team/fenix/libraries/running",
-    download_url="https://pypi.org/project/fenix-library-running/",
+    url="https://github.com/shivanandvp/pyrunning",
+    download_url="https://pypi.org/project/pyrunning/",
     project_urls={
-        'Documentation': 'https://rebornos-team.gitlab.io/fenix/libraries/running/',
-        'Source': 'https://gitlab.com/rebornos-team/fenix/libraries/running',
-        'Tracker': 'https://gitlab.com/rebornos-team/fenix/libraries/running/issues',
+        'Documentation': 'https://github.com/shivanandvp/pyrunning/',
+        'Source': 'https://github.com/shivanandvp/pyrunning',
+        'Tracker': 'https://github.com/shivanandvp/pyrunning/issues',
     },
     classifiers=[
-        "Programming Language :: Python :: 3.9",
-        "Development Status :: 3 - Alpha",
-        "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+        "Programming Language :: Python :: 3.11",
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
         "Operating System :: POSIX :: Linux",
         "Intended Audience :: Developers",
         "Intended Audience :: System Administrators",
@@ -31,9 +31,5 @@ setuptools.setup(
         "Topic :: System :: Systems Administration",
         "Topic :: Utilities",
     ],
-    packages=setuptools.find_namespace_packages(include=['fenix_library.*']),
-    namespace_packages=[
-        "fenix_library"
-    ],
-    python_requires='>=3.6'
+    python_requires='>=3.9'
 )

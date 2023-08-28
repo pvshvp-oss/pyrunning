@@ -8,5 +8,5 @@ API Documentation - the inner workings
    :template: custom-module-template.rst
    :recursive:
 
-   fenix_library
+   pyrunning
 

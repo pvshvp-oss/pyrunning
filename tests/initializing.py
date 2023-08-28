@@ -30,7 +30,7 @@ class InitializeLogging:
 
         InitializeLogging.delete_old_log_files(no_of_files_to_keep =5) # delete old log files
 
-        logger = logging.getLogger('fenix_library-running_test') # create a new logger and name it
+        logger = logging.getLogger('pyrunning_test') # create a new logger and name it
         logger.setLevel(logging.DEBUG) # set it to log anything of debugging and higher alert levels
         logger.propagate = False
         

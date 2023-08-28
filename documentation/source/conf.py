@@ -37,9 +37,9 @@ import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'Fenix Library - Running'
-copyright = '2021, RebornOS'
-author = 'Shivanand Pattanshetti'
+project = 'pyrunning'
+copyright = '2023, shivanandvp'
+author = 'shivanandvp <shivanandvp.oss@gmail.com>'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'

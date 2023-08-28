@@ -1,7 +1,7 @@
 .. _contributing:
 
-How to Contribute to Fenix Library - Running
-**********************************************
+How to Contribute to pyrunning
+******************************
 
 Testing
 =======
@@ -23,7 +23,7 @@ Testing
    
     .. code-block:: bash
 
-        git clone https://gitlab.com/rebornos-team/libraries/running.git
+        git clone https://github.com/shivanandvp/pyrunning.git
     
 4. **Build**: **Change to the downloaded directory** and run the below
 
@@ -44,9 +44,9 @@ Development
    
 2. **API Documentation**: Consult :ref:`api_documentation` for an overview of the code.
    
-3. **Git Repository**: *Fork* or *clone* the project from its **Gitlab** page and edit the source code of the project. For the *Git* URL, please refer to the **Testing** section above. 
+3. **Git Repository**: *Fork* or *clone* the project from its **GitHub** page and edit the source code of the project. For the *Git* URL, please refer to the **Testing** section above. 
    
-4. **Code Editor**: Make sure that you have a code editor installed (like :code:`vscode`, :code:`atom`, :code:`gedit`, or an IDE like :code:`pycharm`). We recommend *VSCode* since if you open the file :code:`running.code-workspace` (found in the directory :code:`running/`) in *VSCode*, the :underlined:`recommended` *extensions* and *settings* are preconfigured to make your job easy and less error prone.
+4. **Code Editor**: Make sure that you have a code editor installed (like :code:`vscode`, :code:`gedit`, or an IDE like :code:`pycharm`). I recommend *VSCode* since if you open the file :code:`pyrunning.code-workspace` (found in the base directory) in *VSCode*, the :underlined:`recommended` *extensions* and *settings* are preconfigured to make your job easy and less error prone.
 
     .. code-block:: bash
 
