@@ -19,10 +19,10 @@ On a terminal, run
 Installing from Git
 ===================
 
-The "default" branch (recommended)
+The "main" branch (recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    sudo pip install git+https://github.com/shivanandvp/pyrunning@default
+    sudo pip install git+https://github.com/shivanandvp/pyrunning@main
 
