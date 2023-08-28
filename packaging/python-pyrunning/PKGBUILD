@@ -1,0 +1,39 @@
+#! /usr/bin/env sh
+
+# Maintainer: shivanandvp <shivanandvp.oss@gmail.com, shivanandvp@rebornos.org>
+
+PROJECT_NAME="pyrunning"
+PACKAGE_NAME_STUB="python-$PROJECT_NAME"
+provides=("$PACKAGE_NAME_STUB")
+depends=('python>=3.10')
+arch=('any')
+pkgdesc='A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.'
+url="https://github.com/shivanandvp/$PROJECT_NAME"
+license=('MPL-2.0') 
+
+# -------- # 
+# Specific #
+# -------- #
+pkgver=0.0.12
+pkgrel=1
+pkgname="$PACKAGE_NAME_STUB"
+conflicts=("$PACKAGE_NAME_STUB-local" "$PACKAGE_NAME_STUB-git")
+makedepends=('git' 'python-setuptools' 'python-pipenv')
+source=("${url}/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+prepare() {
+    export PROJECT_DIRECTORY="${srcdir}/$PROJECT_NAME-${pkgver}"
+}
+# -------- #
+
+build() {   
+    (   cd "$PROJECT_DIRECTORY" \
+        && python setup.py build
+    )
+}
+package() {
+    install -Dm644 "$PROJECT_DIRECTORY/LICENSE" "$pkgdir/usr/share/licenses/$PACKAGE_NAME_STUB/LICENSE"
+    (   cd "$PROJECT_DIRECTORY" \
+        && python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+    )
+}

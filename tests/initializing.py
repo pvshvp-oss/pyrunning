@@ -35,7 +35,7 @@ class InitializeLogging:
         logger.propagate = False
         
         # Set up file-based logging
-        log_file_path = pathlib.Path("tests/log/" + "running-" + get_time_stamp() + ".log")
+        log_file_path = pathlib.Path("tests/log/" + "pyrunning_test-" + get_time_stamp() + ".log")
         print("Logging to " + str(log_file_path.resolve()) + "...\n")
         log_file_handler = logging.FileHandler(log_file_path) # for logging onto files
         log_file_handler.setLevel(logging.DEBUG) # log debug messages and higher
@@ -69,7 +69,7 @@ class InitializeLogging:
         """
 
         subprocess.Popen(
-            "ls -tp running* | grep -v '/$' | tail -n +" 
+            "ls -tp pyrunning_test-* | grep -v '/$' | tail -n +" 
                 + str(no_of_files_to_keep) 
                 + " | xargs -I {} rm -- {}",
             shell=True,

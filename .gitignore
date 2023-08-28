@@ -3,10 +3,16 @@ documentation/source/_autosummary
 *.pyc
 __pycache__
 build/*
-# dist/*
-# *.egg-info/*
+dist/*
+*.egg-info/*
+*.egg-info
 .vscode
 *.log
-packaging/
-scripts/
 .gitlab-ci.yml
+
+# Packaging
+packaging/**/pkg
+packaging/**/src
+packaging/**/*.tar*
+packaging/**/python-pyrunning-git/python-pyrunning
+packaging/**/python-pyrunning/python-pyrunning*

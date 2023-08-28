@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.12",
     author="shivanandvp",
     author_email="shivanandvp.oss@gmail.com",
-    description="A pyhon library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
+    description="A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/shivanandvp/pyrunning",
@@ -31,5 +31,5 @@ setuptools.setup(
         "Topic :: System :: Systems Administration",
         "Topic :: Utilities",
     ],
-    python_requires='>=3.9'
+    python_requires='>=3.10'
 )

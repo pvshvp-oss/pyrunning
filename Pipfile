@@ -16,4 +16,4 @@ sphinxcontrib-mermaid = "*"
 pyrunning = {editable = true, git = "https://github.com/shivanandvp/pyrunning.git"}
 
 [requires]
-python_version = "3.9"
+python_version = ">=3.10"
