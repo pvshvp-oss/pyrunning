@@ -23,7 +23,7 @@ Testing
    
     .. code-block:: bash
 
-        git clone https://github.com/shivanandvp/pyrunning.git
+        git clone https://github.com/shiva-patt-oss/pyrunning.git
     
 4. **Build**: **Change to the downloaded directory** and run the below
 

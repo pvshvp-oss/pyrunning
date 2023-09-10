@@ -7,7 +7,7 @@
 Welcome to pyrunning package documentation!
 *******************************************
 
-Project page: https://github.com/shivanandvp/pyrunning>`_
+Project page: https://github.com/shiva-patt-oss/pyrunning>`_
 
 ------------
 
