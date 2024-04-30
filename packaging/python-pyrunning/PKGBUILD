@@ -5,7 +5,7 @@
 PROJECT_NAME="pyrunning"
 PACKAGE_NAME_STUB="python-$PROJECT_NAME"
 provides=("$PACKAGE_NAME_STUB")
-depends=('python>=3.10')
+depends=('python>=3.12')
 arch=('any')
 pkgdesc='A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.'
 url="https://github.com/pvshvp-oss/$PROJECT_NAME"
