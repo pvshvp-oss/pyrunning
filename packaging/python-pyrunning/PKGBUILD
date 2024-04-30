@@ -1,6 +1,6 @@
 #! /usr/bin/env sh
 
-# Maintainer: shiva.patt <shiva.patt.oss@gmail.com, shivanandvp@rebornos.org>
+# Maintainer: pvshvp <pvshvp.oss@gmail.com, shivanandvp@rebornos.org>
 
 PROJECT_NAME="pyrunning"
 PACKAGE_NAME_STUB="python-$PROJECT_NAME"
@@ -8,7 +8,7 @@ provides=("$PACKAGE_NAME_STUB")
 depends=('python>=3.10')
 arch=('any')
 pkgdesc='A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.'
-url="https://github.com/shiva-patt-oss/$PROJECT_NAME"
+url="https://github.com/pvshvp-oss/$PROJECT_NAME"
 license=('MPL-2.0') 
 
 # -------- # 

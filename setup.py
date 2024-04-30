@@ -6,17 +6,17 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="pyrunning",
     version="0.0.14",
-    author="shiva.patt",
-    author_email="shiva.patt.oss@gmail.com",
+    author="pvshvp",
+    author_email="pvshvp.oss@gmail.com",
     description="A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/shiva-patt-oss/pyrunning",
+    url="https://github.com/pvshvp-oss/pyrunning",
     download_url="https://pypi.org/project/pyrunning/",
     project_urls={
-        'Documentation': 'https://github.com/shiva-patt-oss/pyrunning/',
-        'Source': 'https://github.com/shiva-patt-oss/pyrunning',
-        'Tracker': 'https://github.com/shiva-patt-oss/pyrunning/issues',
+        'Documentation': 'https://github.com/pvshvp-oss/pyrunning/',
+        'Source': 'https://github.com/pvshvp-oss/pyrunning',
+        'Tracker': 'https://github.com/pvshvp-oss/pyrunning/issues',
     },
     classifiers=[
         "Programming Language :: Python :: 3.11",

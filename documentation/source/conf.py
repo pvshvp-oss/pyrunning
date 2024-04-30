@@ -38,8 +38,8 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'pyrunning'
-copyright = '2023, shiva.patt'
-author = 'shiva.patt <shiva.patt.oss@gmail.com>'
+copyright = '2023, pvshvp'
+author = 'pvshvp <pvshvp.oss@gmail.com>'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'

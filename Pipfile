@@ -13,7 +13,7 @@ build = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-mermaid = "*"
-pyrunning = {editable = true, git = "https://github.com/shiva-patt-oss/pyrunning.git"}
+pyrunning = {editable = true, git = "https://github.com/pvshvp-oss/pyrunning.git"}
 
 [requires]
 python_version = ">=3.10"

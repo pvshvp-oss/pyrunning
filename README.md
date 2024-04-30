@@ -1,11 +1,11 @@
 
 # pyrunning
 
-![GitHub](https://img.shields.io/github/license/shiva-patt-oss/pyrunning)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/shiva-patt-oss/pyrunning)
+![GitHub](https://img.shields.io/github/license/pvshvp-oss/pyrunning)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/pvshvp-oss/pyrunning)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrunning?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyrunning%2F)](https://pypi.org/project/pyrunning/)
-[![Release](https://github.com/shiva-patt-oss/pyrunning/actions/workflows/release.yml/badge.svg)](https://github.com/shiva-patt-oss/pyrunning/actions/workflows/release.yml)
-[![Pre-Release (Git)](https://github.com/shiva-patt-oss/pyrunning/actions/workflows/pre_release.yml/badge.svg)](https://github.com/shiva-patt-oss/pyrunning/actions/workflows/pre_release.yml)
+[![Release](https://github.com/pvshvp-oss/pyrunning/actions/workflows/release.yml/badge.svg)](https://github.com/pvshvp-oss/pyrunning/actions/workflows/release.yml)
+[![Pre-Release (Git)](https://github.com/pvshvp-oss/pyrunning/actions/workflows/pre_release.yml/badge.svg)](https://github.com/pvshvp-oss/pyrunning/actions/workflows/pre_release.yml)
 
 ## Overview
 
@@ -13,7 +13,7 @@ A python library to run and live-log *OS commands*, *functions*, *scripts*, and 
 
 **Warning**: This package is still in the Beta stage. It is not ready for production use. Please do not use for any critical software
 
-<!-- ## [PLEASE CLICK HERE](https://github.com/shiva-patt-oss/pyrunning/index.html) for the full documentation -->
+<!-- ## [PLEASE CLICK HERE](https://github.com/pvshvp-oss/pyrunning/index.html) for the full documentation -->
 
 ## Cloning
 
@@ -22,7 +22,7 @@ In order to download the source code to your local computer for testing, or for 
 ### HTTPS
 
 ```bash
-git clone https://github.com/shiva-patt-oss/pyrunning.git 
+git clone https://github.com/pvshvp-oss/pyrunning.git 
 ```
 
 OR
@@ -30,7 +30,7 @@ OR
 ### SSH
 
 ```bash
-git clone git@github.com:shiva-patt-oss/pyrunning.git
+git clone git@github.com:pvshvp-oss/pyrunning.git
 ```
 
 ## Packaging
@@ -49,6 +49,6 @@ OR
 where `<MODE>` can be one of the below
      1. `local`: Selects *pyrunning-local* from the local project that you have cloned already.
      2. `git`: Selects *pyrunning-git* from the latest git commit.
-     3. `stable`: Selects *pyrunning* from the git tag corresponding to the [`pkgver` specified in the PKGBUILD](https://github.com/shiva-patt-oss/pyrunning/blob/main/packaging/pyrunning/PKGBUILD#L17). If `pkgver=0.1.2`, then the git tag `v0.1.2` is used for packaging. 
+     3. `stable`: Selects *pyrunning* from the git tag corresponding to the [`pkgver` specified in the PKGBUILD](https://github.com/pvshvp-oss/pyrunning/blob/main/packaging/pyrunning/PKGBUILD#L17). If `pkgver=0.1.2`, then the git tag `v0.1.2` is used for packaging. 
      
 > **Note**: Any additional parameters passed to the above scripts are automatically sent to `makepkg` or `pacman` (whichever is applicable).
