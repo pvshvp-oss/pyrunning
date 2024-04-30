@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyrunning",
-    version="0.0.13",
+    version="0.0.14",
     author="shiva.patt",
     author_email="shiva.patt.oss@gmail.com",
     description="A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
