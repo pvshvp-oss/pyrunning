@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   workflow_call:
 jobs:
-  build:
-    name: 🏗 Build
+  build-arch:
+    name: 🏗 Build for Arch Linux
     runs-on: ubuntu-latest
     container: 
       image: rebornos/rebornos:latest
@@ -24,19 +24,19 @@ jobs:
           sudo pacman -S --needed --noconfirm tree
           chown -R rebornos packaging
           chmod -R +x packaging
-          sudo -u rebornos sh -c "packaging/build_package.sh git --noconfirm"
-          ls -ltr packaging/python-pyrunning-git/
-          tree -L 2 packaging/python-pyrunning-git/
+          sudo -u rebornos sh -c "packaging/arch/build_package.sh git --noconfirm"
+          ls -ltr packaging/arch/python-pyrunning-git/
+          tree -L 2 packaging/arch/python-pyrunning-git/
       - name: ⬆ Upload Package Artifact
         id: upload_package_step
         uses: actions/upload-artifact@v3
         with: 
           name: Unstable Package
           path: |
-            packaging/python-pyrunning-git/*.pkg.tar.*
+            packaging/arch/python-pyrunning-git/*.pkg.tar.*
           if-no-files-found: error
   release:  
-    needs: build        
+    needs: [build-arch]        
     name: 🎊 Pre-Release
     runs-on: ubuntu-latest
     permissions:
@@ -80,4 +80,6 @@ jobs:
           name: ${{ env.GIT_VERSION }}
           files: |
             ${{ steps.download_package_step.outputs.download-path }}/*.pkg*
+            ${{ steps.download_package_step.outputs.download-path }}/*.deb
+            ${{ steps.download_package_step.outputs.download-path }}/*.deb*
 

@@ -1,7 +1,7 @@
 #! /usr/bin/env sh
 
 SCRIPT_DIRECTORY="$(dirname -- "$(readlink -f -- "$0")")"
-PROJECT_DIRECTORY="$(dirname -- "$SCRIPT_DIRECTORY")"
+PROJECT_DIRECTORY="$(dirname -- "$(dirname -- "$SCRIPT_DIRECTORY")")"
 BUILD_DIRECTORY="$PROJECT_DIRECTORY"/build
 PACKAGE_DIRECTORY_STUB="python-pyrunning"
 MODE="$(echo "$1" | tr "[:upper:]" "[:lower:]")"
