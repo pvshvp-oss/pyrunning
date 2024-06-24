@@ -1,0 +1,25 @@
+Source: python3-pyrunning
+Section: python
+Priority: optional
+Maintainer: pvshvp <pvshvp.oss@gmail.com>
+Build-Depends: debhelper (>=12~),
+               devscripts,
+               lintian,
+               dh-python,
+               python3-all,
+               python3-setuptools,
+               git,
+               curl
+
+
+Package: python3-pyrunning
+Architecture: all
+Homepage: https://github.com/pvshvp-oss/pyrunning
+Depends: python3 (>= 3.11),
+         ${python:Depends},
+         ${misc:Depends}
+Conflicts: python3-pyrunning-local, python3-pyrunning-git
+Provides: python3-pyrunning
+Description: Python library thats able to live-log OS commands and more.
+ A python library with the ability to run and live-log OS commands, functions,
+ scripts, and batch jobs either immedietly or to be queued for later execution.

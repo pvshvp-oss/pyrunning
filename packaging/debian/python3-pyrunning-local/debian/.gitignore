@@ -1,0 +1,7 @@
+/.debhelper
+/debhelper-build-stamp
+/files
+/python3-pyrunning-local*/
+/*.debhelper.log
+/*.postrm.debhelper
+/*.substvars
