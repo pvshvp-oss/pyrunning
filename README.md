@@ -35,20 +35,21 @@ git clone git@github.com:pvshvp-oss/pyrunning.git
 
 ## Packaging
 
-Change to the project directory (`cd pyrunning`) and run any of the below scripts:
-- `sh packaging/setup.sh <MODE>`: Builds and installs a package
-- `sh packaging/build-package.sh <MODE>`: Just builds a package without installing it locally
-- `sh packaging/install-package.sh <MODE>`: Just installs a package locally, except if no built package is detected, a package is built.
- 
-OR
+### Arch Linux
 
-- `sh packaging_iso/setup.sh <MODE>`: Builds and installs a package
-- `sh packaging_iso/build-package.sh <MODE>`: Just builds a package without installing it locally
-- `sh packaging_iso/install-package.sh <MODE>`: Just installs a package locally, except if no built package is detected, a package is built.
+Change to the project directory (`cd pyrunning`) and run any of the below scripts:
+- `sh packaging/arch/setup.sh <MODE>`: Builds and installs a package
+- `sh packaging/arch/build-package.sh <MODE>`: Just builds a package without installing it locally
+- `sh packaging/arch/install-package.sh <MODE>`: Just installs a package locally, except if no built package is detected, a package is built.
+ 
+### Debian
+
+Change to the project directory (`cd pyrunning`) and run any of the below scripts:
+- `sh packaging/debian/build-package.sh <MODE>`: Just builds a package without installing it locally
 
 where `<MODE>` can be one of the below
      1. `local`: Selects *pyrunning-local* from the local project that you have cloned already.
-     2. `git`: Selects *pyrunning-git* from the latest git commit.
+     2. `git`: Selects *pyrunning-git* from the latest git commit. **Note** - Not available for Debian.
      3. `stable`: Selects *pyrunning* from the git tag corresponding to the [`pkgver` specified in the PKGBUILD](https://github.com/pvshvp-oss/pyrunning/blob/main/packaging/pyrunning/PKGBUILD#L17). If `pkgver=0.1.2`, then the git tag `v0.1.2` is used for packaging. 
      
 > **Note**: Any additional parameters passed to the above scripts are automatically sent to `makepkg` or `pacman` (whichever is applicable).

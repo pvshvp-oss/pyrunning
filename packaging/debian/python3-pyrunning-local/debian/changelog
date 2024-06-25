@@ -1,0 +1,57 @@
+python3-pyrunning-local (0.0.14) unstable; urgency=medium
+
+  [ shivanandvp ]
+  * First commit
+  * First build
+  * naming changes
+  * Fix namespace packages
+  * flatten package
+  * Documentation changes
+  * Documentation fixes
+  * More documentation fixes
+
+  [ Shivanand Pattanshetti ]
+  * Update .gitlab-ci.yml file
+  * Update .gitlab-ci.yml file
+
+  [ shivanandvp ]
+  * Fix for error at shutting down threadpoolexecutor
+  * New version
+  * Fix docs
+  * Use git for Fenix libraries
+  * testing
+  * testing
+  * Change archlinux package name
+  * Fix permissions for temporary script
+  * Rebuild
+  * version update
+  * chore: :truck: Rename project and move it to the author's page
+  * build: :bricks: Overhaul the build system
+  * build: :bug: Fix the directory name for build scripts
+  * docs: :memo: Update README.md
+  * chore: :see_no_evil: Update .gitignore
+  * ci: :construction_worker: Add CI
+  * ci: :green_heart: Update CI
+  * ci: :green_heart: Fix CI
+  * ci: :construction_worker: Try fixing the CI
+  * chore: :memo: Add CHANGELOG.md
+  * docs: :speech_balloon: Correct typo in README.md
+  * docs: :memo: Update Readme badge link
+  * chore: :fire: Remove Gitlab CI
+  * build: :wrench: Exclude additional characters from version
+  * build: :bug: Escape shell characters
+  * docs: :speech_balloon: Fix docs
+  * chore: :truck: Reorganize sources to prevent naming conflicts
+  * build: :bookmark: Bump version
+
+  [ shiva-patt-oss ]
+  * chore: :truck: Change username and email
+
+  [ pvshvp-oss ]
+  * Bump versions and add contributing checklist
+  * Update info
+  * Update version in contributing guidelines
+  * build: :arrow_up: Update python dependency version
+  * build: :truck: Reorganize to make room for other packaging formats
+
+ -- shivanandvp <pvshvp.oss@gmail.com>  Mon, 24 Jun 2024 18:47:27 +0300
