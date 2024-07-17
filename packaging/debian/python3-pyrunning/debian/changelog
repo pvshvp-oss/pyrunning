@@ -1,3 +1,11 @@
+python3-pyrunning (0.0.15) unstable; urgency=medium
+
+  [ RadxaPanda ]
+  * feat: add debian packaging (#1)
+  * build: :truck: Add Debian build workflow
+
+ -- shivanandvp <pvshvp.oss@gmail.com>  Thu, 11 Jul 2024 23:21:59 +0300
+
 python3-pyrunning (0.0.14) unstable; urgency=medium
 
   [ shivanandvp ]

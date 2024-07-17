@@ -34,12 +34,34 @@ jobs:
         id: upload_package_step
         uses: actions/upload-artifact@v3
         with: 
-          name: Stable Package
+          name: Stable Arch Package
           path: |
             packaging/arch/python-pyrunning/*.pkg.tar.*
           if-no-files-found: error
+  build-debian:
+    name: 🏗 Build for Debian
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🎟 Checkout Git Repository
+        uses: actions/checkout@v3
+      - name: 🛠 Build Package
+        run: |
+          cd packaging/debian/python3-${{ github.event.repository.name }}
+          sudo apt-get update
+          sudo apt-get build-dep --no-install-recommends -y .
+          make all deb
+      - name: Workaround actions/upload-artifact#176
+        run: |
+          echo "artifacts_path=$(realpath packaging/debian/)" >> $GITHUB_ENV
+      - name: ⬆ Upload Package Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Stable Debian Package
+          path: |
+            ${{ env.artifacts_path }}/*.deb
+          if-no-files-found: error
   release:  
-    needs: [build-arch]
+    needs: [build-arch, build-debian]
     name: 🎉 Release
     runs-on: ubuntu-latest
     permissions:
@@ -58,17 +80,26 @@ jobs:
           echo "GIT_VERSION=$GIT_VERSION" >> $GITHUB_ENV 
           echo "LATEST_TAG=$LATEST_TAG"
           echo "GIT_VERSION=$GIT_VERSION"
-      - name: ⬇ Download Package Artifact
-        id: download_package_step         
+      - name: ⬇ Download Arch Package Artifact
+        id: download_arch_package_step         
         uses: actions/download-artifact@v3
         with:
-          name: Stable Package
-          path: output
-      - name: 🖩 Generate CheckSum
+          name: Stable Arch Package
+          path: output-arch
+      - name: ⬇ Download Debian Package Artifact
+        id: download_deb_package_step
+        uses: actions/download-artifact@v3
+        with:
+          name: Stable Debian Package
+          path: output-debian
+      - name: 🖩 Generate CheckSums
         id: generate_checksum_step
         run: |
-          cd ${{ steps.download_package_step.outputs.download-path }}
-          ls -ltr ${{ steps.download_package_step.outputs.download-path }}
+          cd ${{ steps.download_arch_package_step.outputs.download-path }}
+          ls -ltr ${{ steps.download_arch_package_step.outputs.download-path }}
+          find . -type f -exec sh -c 'sha256sum "$0" > "$0.sha256sum"' {} \;
+          cd ${{ steps.download_deb_package_step.outputs.download-path }}
+          ls -ltr ${{ steps.download_deb_package_step.outputs.download-path }}
           find . -type f -exec sh -c 'sha256sum "$0" > "$0.sha256sum"' {} \;
       - name: 🎉 Create Release
         id: create_release_step
@@ -83,7 +114,5 @@ jobs:
           tag_name: ${{ env.LATEST_TAG }}
           name: ${{ env.LATEST_TAG }}
           files: |
-            ${{ steps.download_package_step.outputs.download-path }}/*.pkg*
-            ${{ steps.download_package_step.outputs.download-path }}/*.deb
-            ${{ steps.download_package_step.outputs.download-path }}/*.deb*
-            
+            ${{ steps.download_arch_package_step.outputs.download-path }}/*.pkg*
+            ${{ steps.download_deb_package_step.outputs.download-path }}/*.deb*
