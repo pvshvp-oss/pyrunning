@@ -1008,8 +1008,12 @@ class AbstractRunnable(ABC):
         The function to be called before the execution
     post_run_function: Optional[functools.partial]
         The function to be called after the execution
-    do_send_output_to_post_run_function: bool
-        Whether to receive the output of the command as the first argument for the `post_run_function` method
+    do_send_output_to_post_run_function: bool, default False
+        Whether to receive the output after execution as the first argument for `post_run_function`
+        If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+    do_send_exit_code_to_post_run_function: bool, default False
+        Whether to receive the exit code after execution as the first argument for `post_run_function`
+        If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
     do_abort: bool
         An abort request has been received
     is_running: bool
@@ -1029,6 +1033,7 @@ class AbstractRunnable(ABC):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         loginfo_filename= None,
         loginfo_line_number= None,
         loginfo_function_name= None,
@@ -1047,6 +1052,10 @@ class AbstractRunnable(ABC):
             The function to be called after the execution
         do_send_output_to_post_run_function: bool, default False
             Whether to receive the output after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+        do_send_exit_code_to_post_run_function: bool, default False
+            Whether to receive the exit code after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
 
         Returns
         -------
@@ -1058,6 +1067,7 @@ class AbstractRunnable(ABC):
         self.pre_run_function: Optional[functools.partial] = pre_run_function
         self.post_run_function: Optional[functools.partial] = post_run_function
         self.do_send_output_to_post_run_function: bool = do_send_output_to_post_run_function
+        self.do_send_exit_code_to_post_run_function: bool = do_send_exit_code_to_post_run_function
         self.loginfo_filename= loginfo_filename
         self.loginfo_line_number= loginfo_line_number
         self.loginfo_function_name= loginfo_function_name
@@ -1106,7 +1116,16 @@ class AbstractRunnable(ABC):
         """
 
         if self.post_run_function is not None: # If a post run function is specified
-            if self.do_send_output_to_post_run_function:
+            if self.do_send_output_to_post_run_function and self.do_send_exit_code_to_post_run_function:
+                modified_function_handle: functools.partial = functools.partial( # 1 is the output, 2 is the return code
+                    self.post_run_function.func,
+                    self.output,
+                    self.return_code,
+                    *self.post_run_function.args,
+                    **self.post_run_function.keywords
+                )
+                return modified_function_handle()
+            elif self.do_send_output_to_post_run_function:
                 modified_function_handle: functools.partial = functools.partial( # Modify the function format to add the command's output output as the first argument
                     self.post_run_function.func,
                     self.output,
@@ -1114,8 +1133,16 @@ class AbstractRunnable(ABC):
                     **self.post_run_function.keywords
                 )
                 return modified_function_handle() # Call the modified function handle
+            elif self.do_send_exit_code_to_post_run_function:
+                modified_function_handle: functools.partial = functools.partial( # Modify the function format to add the command's exit code as the first argument
+                    self.post_run_function.func,
+                    self.return_code,
+                    *self.post_run_function.args,
+                    **self.post_run_function.keywords
+                )
+                return modified_function_handle()
             else:
-                return self.post_run_function()         
+                return self.post_run_function()
         else: # If a post run function is not specified
             return None # Do nothing
 
@@ -1135,9 +1162,13 @@ class Function(AbstractRunnable, functools.partial):
     pre_run_function: Optional[functools.partial]
         The function to be called before the execution
     post_run_function: Optional[functools.partial]
-        The function to be called after the execution
-    do_send_output_to_post_run_function: bool
-        Whether to receive the output of the command as the first argument for the `post_run_function` method
+    The function to be called after the execution
+    do_send_output_to_post_run_function: bool, default False
+        Whether to receive the output after execution as the first argument for `post_run_function`
+        If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+    do_send_exit_code_to_post_run_function: bool, default False
+        Whether to receive the exit code after execution as the first argument for `post_run_function`
+        If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
     keyword_arguments: Dict[str, Any]
         The named arguments to be passed to the function. Wrapper for functools.partial.func.keywords
     
@@ -1153,6 +1184,7 @@ class Function(AbstractRunnable, functools.partial):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         loginfo_filename= None,
         loginfo_line_number= None,
         loginfo_function_name= None,
@@ -1201,6 +1233,7 @@ class Function(AbstractRunnable, functools.partial):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -1218,6 +1251,7 @@ class Function(AbstractRunnable, functools.partial):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         **keyword_arguments
     ) -> Function:
         """
@@ -1248,6 +1282,7 @@ class Function(AbstractRunnable, functools.partial):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             **keyword_arguments
         ) # Create a general function object from the arguments
         return function
@@ -1445,6 +1480,7 @@ class Command(AbstractRunnable):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         temp_filepath: Optional[str] = None,
         loginfo_filename= None,
         loginfo_line_number= None,
@@ -1475,6 +1511,10 @@ class Command(AbstractRunnable):
             The function to be called after the execution
         do_send_output_to_post_run_function: bool, default False
             Whether to receive the output after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+        do_send_exit_code_to_post_run_function: bool, default False
+            Whether to receive the exit code after execution as the first argument for `post_run_function` 
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
         temp_filepath: Optional[str]
             Temporary file path for modifying a script with a trap command
             Only used with Command.Script(...) and Command.ScriptShell(...)
@@ -1518,6 +1558,7 @@ class Command(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -1539,6 +1580,7 @@ class Command(AbstractRunnable):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         loginfo_filename= None,
         loginfo_line_number= None,
         loginfo_function_name= None,
@@ -1568,6 +1610,10 @@ class Command(AbstractRunnable):
             The function to be called after the execution
         do_send_output_to_post_run_function: bool, default False
             Whether to receive the output after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+        do_send_exit_code_to_post_run_function: bool, default False
+            Whether to receive the exit code after execution as the first argument for `post_run_function` 
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
 
         Returns
         -------
@@ -1590,6 +1636,7 @@ class Command(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -1615,6 +1662,7 @@ class Command(AbstractRunnable):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         loginfo_filename= None,
         loginfo_line_number= None,
         loginfo_function_name= None,
@@ -1648,6 +1696,10 @@ class Command(AbstractRunnable):
             The function to be called after the execution
         do_send_output_to_post_run_function: bool, default False
             Whether to receive the output after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+        do_send_exit_code_to_post_run_function: bool, default False
+            Whether to receive the exit code after execution as the first argument for `post_run_function` 
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
 
         Returns
         -------
@@ -1679,6 +1731,7 @@ class Command(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             temp_filepath= temp_filepath,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
@@ -1700,6 +1753,7 @@ class Command(AbstractRunnable):
         pre_run_function: Optional[functools.partial] = None,
         post_run_function: Optional[functools.partial] = None,
         do_send_output_to_post_run_function: bool = False,
+        do_send_exit_code_to_post_run_function: bool = False,
         loginfo_filename= None,
         loginfo_line_number= None,
         loginfo_function_name= None,
@@ -1733,6 +1787,10 @@ class Command(AbstractRunnable):
             The function to be called after the execution
         do_send_output_to_post_run_function: bool, default False
             Whether to receive the output after execution as the first argument for `post_run_function`
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
+        do_send_exit_code_to_post_run_function: bool, default False
+            Whether to receive the exit code after execution as the first argument for `post_run_function` 
+            If both send_output and send_exit_code are True, the output is sent first, followed by the exit code
 
         Returns
         -------
@@ -1756,6 +1814,7 @@ class Command(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= do_send_output_to_post_run_function,
+            do_send_exit_code_to_post_run_function= do_send_exit_code_to_post_run_function,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
@@ -2767,6 +2826,7 @@ class BatchJob(AbstractRunnable):
             pre_run_function= pre_run_function,
             post_run_function= post_run_function,
             do_send_output_to_post_run_function= False,
+            do_send_exit_code_to_post_run_function= False,
             loginfo_filename= loginfo_filename,
             loginfo_line_number= loginfo_line_number,
             loginfo_function_name= loginfo_function_name,
