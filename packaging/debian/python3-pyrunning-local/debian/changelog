@@ -3,7 +3,7 @@ python3-pyrunning-local (0.0.15) unstable; urgency=low
   [ Rippanda12 ]
   * feat: add do_send_exit_code_to_post_run_function (#3)
   
--- shivanandvp <pvshvp.oss@gmail.com>  Sun, 28 Jul 2024 19:07:00 -0500
+ -- shivanandvp <pvshvp.oss@gmail.com>  Sun, 28 Jul 2024 19:07:00 -0500
 
 python3-pyrunning-local (0.0.15) unstable; urgency=medium
 
