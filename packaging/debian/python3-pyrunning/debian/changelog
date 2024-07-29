@@ -1,4 +1,4 @@
-python3-pyrunning (0.0.15) unstable; urgency=low
+python3-pyrunning (0.0.16) unstable; urgency=low
 
   [ Rippanda12 ]
   * feat: add do_send_exit_code_to_post_run_function (#3)
