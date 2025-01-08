@@ -15,7 +15,7 @@ Build-Depends: debhelper (>=12~),
 Package: python3-pyrunning-local
 Architecture: all
 Homepage: https://github.com/pvshvp-oss/pyrunning
-Depends: python3 (>= 3.12),
+Depends: python3 (>= 3.13),
          ${python:Depends},
          ${misc:Depends}
 Conflicts: python3-pyrunning, python3-pyrunning-git

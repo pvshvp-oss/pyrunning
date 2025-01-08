@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyrunning",
-    version="0.0.16",
+    version="0.0.17",
     author="pvshvp",
     author_email="pvshvp.oss@gmail.com",
     description="A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.",
@@ -19,7 +19,7 @@ setuptools.setup(
         'Tracker': 'https://github.com/pvshvp-oss/pyrunning/issues',
     },
     classifiers=[
-        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.13",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
         "Operating System :: POSIX :: Linux",
@@ -31,5 +31,5 @@ setuptools.setup(
         "Topic :: System :: Systems Administration",
         "Topic :: Utilities",
     ],
-    python_requires='>=3.10'
+    python_requires='>=3.13'
 )

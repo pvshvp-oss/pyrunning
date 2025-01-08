@@ -5,7 +5,7 @@
 PROJECT_NAME="pyrunning"
 PACKAGE_NAME_STUB="python-$PROJECT_NAME"
 provides=("$PACKAGE_NAME_STUB")
-depends=('python>=3.12')
+depends=('python>=3.13')
 arch=('any')
 pkgdesc='A python library to run and live-log OS commands, functions, scripts, and batch jobs either immedietly, or to be queued for later execution.'
 url="https://github.com/pvshvp-oss/$PROJECT_NAME"
@@ -14,8 +14,8 @@ license=('MPL-2.0')
 # -------- # 
 # Specific #
 # -------- #
-PKGVER_STUB=0.0.16
-pkgver=0.0.16.2024_06_24T06_16_57_05_00
+PKGVER_STUB=0.0.17
+pkgver=0.0.17.2024_06_24T06_16_57_05_00
 pkgrel=1
 pkgname="$PACKAGE_NAME_STUB-local"
 conflicts=("$PACKAGE_NAME_STUB" "$PACKAGE_NAME_STUB-git")
