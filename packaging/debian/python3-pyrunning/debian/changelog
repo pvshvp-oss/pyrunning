@@ -3,7 +3,7 @@ python3-pyrunning (0.0.17) unstable; urgency=low
   [ shivanandvp ]
   * fix: rebuild for updated python
   
- -- shivanandvp <pvshvp.oss@gmail.com>  Wed, 08 Jan 2024 06:36:00 -0600
+ -- shivanandvp <pvshvp.oss@gmail.com>  Wed, 08 Jan 2025 06:36:00 -0600
 
 python3-pyrunning (0.0.16) unstable; urgency=low
 
