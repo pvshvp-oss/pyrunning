@@ -20,7 +20,7 @@ jobs:
         run: sh /usr/bin/init-rebornos-docker.sh
       - name: 🎟 Checkout Git Repository
         id: checkout_repository_step
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: 🛠 Build Package
         id: build_package_step        
         run: |
@@ -32,7 +32,7 @@ jobs:
           tree -L 2 packaging/arch/python-pyrunning/
       - name: ⬆ Upload Package Artifact
         id: upload_package_step
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with: 
           name: Stable Arch Package
           path: |
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🎟 Checkout Git Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: 🛠 Build Package
         run: |
           cd packaging/debian/python3-${{ github.event.repository.name }}
@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "artifacts_path=$(realpath packaging/debian/)" >> $GITHUB_ENV
       - name: ⬆ Upload Package Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: Stable Debian Package
           path: |
@@ -69,7 +69,7 @@ jobs:
     steps:
       - name: 🎟 Checkout Git Repository
         id: checkout_repository_step
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name:  🏷 Determine Tags and Versions
         id: set_versions_step
         run: |
@@ -82,13 +82,13 @@ jobs:
           echo "GIT_VERSION=$GIT_VERSION"
       - name: ⬇ Download Arch Package Artifact
         id: download_arch_package_step         
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: Stable Arch Package
           path: output-arch
       - name: ⬇ Download Debian Package Artifact
         id: download_deb_package_step
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: Stable Debian Package
           path: output-debian

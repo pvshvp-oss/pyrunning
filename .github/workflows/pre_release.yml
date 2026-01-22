@@ -17,7 +17,7 @@ jobs:
         run: sh /usr/bin/init-rebornos-docker.sh
       - name: 🎟 Checkout Git Repository
         id: checkout_repository_step
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: 🛠 Build Package
         id: build_package_step        
         run: |
@@ -29,7 +29,7 @@ jobs:
           tree -L 2 packaging/arch/python-pyrunning-git/
       - name: ⬆ Upload Package Artifact
         id: upload_package_step
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with: 
           name: Unstable Package
           path: |
@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: 🎟 Checkout Git Repository
         id: checkout_repository_step
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name:  🏷 Determine Tags and Versions
         id: set_versions_step
         run: |
@@ -57,7 +57,7 @@ jobs:
           echo "GIT_VERSION=$GIT_VERSION"
       - name: ⬇ Download Package Artifact
         id: download_package_step         
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: Unstable Package
           path: output
