@@ -1,4 +1,4 @@
-python3-pyrunning-local (0.0.17) unstable; urgency=low
+python3-pyrunning-local (0.0.18) unstable; urgency=low
 
   [ shivanandvp ]
   * fix: rebuild for updated python
